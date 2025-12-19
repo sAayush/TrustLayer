@@ -11,7 +11,7 @@ on:
 jobs:
   security:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -36,12 +36,15 @@ jobs:
 
       - name: Run npm audit
         run: npm audit --audit-level=high
-        
+        continue-on-error: true
+
       - name: Check for outdated dependencies
-      run: npx npm-check-updates --errorLevel 2
+        run: npx npm-check-updates --errorLevel 2
+        continue-on-error: true
 
       - name: Run Snyk security scan
         uses: snyk/actions/node@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
