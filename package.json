@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "db:model": "npx supabase gen types typescript --project-id kfowzoyuhmcxasmntxxh > src/types/supabase.ts",
-    "db:push": "npx supabase db push"
+    "db:push": "npx supabase db push",
+    "db:pull": "npx supabase db pull"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.8",
