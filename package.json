@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:model": "npx supabase gen types typescript --project-id kfowzoyuhmcxasmntxxh > src/types/supabase.ts"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.8",
