@@ -2,7 +2,7 @@
 
 import { GalleryVerticalEnd } from "lucide-react"
 import { useActionState } from "react";
-import { verifyOtp } from "@/actions/auth";
+import { verifyOtp, resendOTP } from "@/actions/auth";
 import { useSearchParams } from "next/navigation";
 
 import { cn } from "@/lib/utils"
@@ -20,14 +20,21 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp"
 
+
+interface ActionState {
+    error?: string;
+    success?: string;
+}
+
 export function OTPForm({ className, ...props }: React.ComponentProps<"div">) {
-  const [state, action, isPending] = useActionState(verifyOtp, null);
+  const [verifyState, verifyAction, isVerifyPending] = useActionState<ActionState | null, FormData>(verifyOtp, null);
+  const [resendState, resendAction, isResendPending] = useActionState<ActionState | null, FormData>(resendOTP, null);
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <form action={action}>
+      <form action={verifyAction}>
         <input type="hidden" name="email" value={email} />
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
@@ -46,12 +53,11 @@ export function OTPForm({ className, ...props }: React.ComponentProps<"div">) {
             </FieldDescription>
           </div>
 
-          {state?.error && (
+          {verifyState?.error && (
             <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-              {state.error}
+              {verifyState.error}
             </div>
           )}
-
 
           <Field className="flex justify-center">
             <FieldLabel htmlFor="otp" className="sr-only">
@@ -76,20 +82,34 @@ export function OTPForm({ className, ...props }: React.ComponentProps<"div">) {
                 <InputOTPSlot index={5} />
               </InputOTPGroup>
             </InputOTP>
-            <FieldDescription className="text-center">
-              Didn&apos;t receive the code? <a href="#">Resend</a>
-            </FieldDescription>
           </Field>
           <Field>
-            <Button type="submit" disabled={isPending}>
-                {isPending ? "Verifying..." : "Verify"}
+            <Button type="submit" disabled={isVerifyPending}>
+                {isVerifyPending ? "Verifying..." : "Verify"}
             </Button>
           </Field>
         </FieldGroup>
       </form>
+
+      <div className="text-center text-sm text-balance text-muted-foreground">
+        Didn&apos;t receive the code?{" "}
+        <form action={resendAction} className="inline-flex">
+          <input type="hidden" name="email" value={email} />
+          <button type="submit" className="underline underline-offset-4 hover:text-primary" disabled={isResendPending}>
+            {isResendPending ? "Sending..." : "Resend"}
+          </button>
+        </form>
+        {resendState?.success && (
+            <p className="mt-2 text-sm text-green-600">{resendState.success}</p>
+        )}
+        {resendState?.error && (
+            <p className="mt-2 text-sm text-destructive">{resendState.error}</p>
+        )}
+      </div>
+
       <FieldDescription className="px-6 text-center">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        and <a href="">Privacy Policy</a>.
       </FieldDescription>
     </div>
   )

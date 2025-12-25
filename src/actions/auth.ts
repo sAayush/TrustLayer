@@ -75,6 +75,19 @@ export async function verifyOtp(prevState: any, formData: FormData) {
   redirect("/dashboard");
 }
 
+export async function resendOTP(prevState: any, formData: FormData) {
+    const email = formData.get("email") as string;
+    const supabase = await createClient();
+    const { error } = await supabase.auth.resend({
+        email,
+        type: "signup",
+    });
+    if (error) {
+        return { error: error.message };
+    }
+    return { success: "Code sent successfully!" };
+}
+
 export async function logout() {
     const supabase = await createClient();
     await supabase.auth.signOut();
