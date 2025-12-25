@@ -1,4 +1,8 @@
+"use client";
+
 import { GalleryVerticalEnd } from "lucide-react"
+import { useActionState } from "react";
+import { signup } from "@/actions/auth";
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -15,9 +19,11 @@ export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [state, action, isPending] = useActionState(signup, null);
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <form>
+      <form action={action}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
             <a
@@ -31,38 +37,65 @@ export function SignupForm({
             </a>
             <h1 className="text-xl font-bold">Welcome to TrustLayer.</h1>
             <FieldDescription>
-              Already have an account? <a href="#">Sign in</a>
+              Already have an account? <a href="/login">Sign in</a>
             </FieldDescription>
           </div>
+
+          {state && 'success' in state && (
+             <div className="rounded-md bg-green-50 p-3 text-sm text-green-600 border border-green-200">
+               {String(state.success)}
+             </div>
+          )}
+
+          {state?.error && typeof state.error === 'string' && (
+            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+              {state.error}
+            </div>
+          )}
+
           <Field>
             <FieldLabel htmlFor="email">Email</FieldLabel>
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="m@example.com"
               required
             />
+            {state?.error && typeof state.error === 'object' && state.error.email && (
+                <p className="text-xs text-destructive">{state.error.email[0]}</p>
+            )}
           </Field>
           <Field>
             <FieldLabel htmlFor="password">Password</FieldLabel>
             <Input
               id="password"
+              name="password"
               type="password"
               placeholder="••••••••"
               required
             />
+             {state?.error && typeof state.error === 'object' && state.error.password && (
+                <p className="text-xs text-destructive">{state.error.password[0]}</p>
+            )}
           </Field>
           <Field>
             <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
             <Input
               id="confirm-password"
+              name="confirmPassword"
               type="password"
               placeholder="••••••••"
               required
             />
+             {state?.error && typeof state.error === 'object' && state.error.confirmPassword && (
+                <p className="text-xs text-destructive">{state.error.confirmPassword[0]}</p>
+            )}
           </Field>
           <Field>
-            <Button type="submit">Create Account</Button>
+            <Button type="submit" disabled={isPending}>
+                {isPending ? "Creating Account..." : "Create Account"}
+            </Button>
           </Field>
           <FieldSeparator>Or</FieldSeparator>
           <Field className="grid gap-4 sm:grid-cols-2">
@@ -73,7 +106,7 @@ export function SignupForm({
                   fill="currentColor"
                 />
               </svg>
-              Continue with Apple
+              Continue with Github
             </Button>
             <Button variant="outline" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

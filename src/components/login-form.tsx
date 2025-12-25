@@ -1,4 +1,8 @@
+"use client";
+
 import { GalleryVerticalEnd } from "lucide-react"
+import { useActionState } from "react";
+import { login } from "@/actions/auth";
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -15,9 +19,11 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [state, action, isPending] = useActionState(login, null);
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <form>
+      <form action={action}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
             <a
@@ -31,13 +37,21 @@ export function LoginForm({
             </a>
             <h1 className="text-xl font-bold">Welcome to TrustLayer.</h1>
             <FieldDescription>
-              Don&apos;t have an account? <a href="#">Sign up</a>
+              Don&apos;t have an account? <a href="/signup">Sign up</a>
             </FieldDescription>
           </div>
+
+          {state?.error && (
+            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+              {state.error}
+            </div>
+          )}
+
           <Field>
             <FieldLabel htmlFor="email">Email</FieldLabel>
             <Input
               id="email"
+              name="email"
               type="email"
               placeholder="m@example.com"
               required
@@ -47,13 +61,16 @@ export function LoginForm({
             <FieldLabel htmlFor="password">Password</FieldLabel>
             <Input
               id="password"
+              name="password"
               type="password"
               placeholder="••••••••"
               required
             />
           </Field>
           <Field>
-            <Button type="submit">Login</Button>
+            <Button type="submit" disabled={isPending}>
+              {isPending ? "Logging in..." : "Login"}
+            </Button>
           </Field>
           <FieldSeparator>Or</FieldSeparator>
           <Field className="grid gap-4 sm:grid-cols-2">
@@ -64,7 +81,7 @@ export function LoginForm({
                   fill="currentColor"
                 />
               </svg>
-              Continue with Apple
+              Continue with github
             </Button>
             <Button variant="outline" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
