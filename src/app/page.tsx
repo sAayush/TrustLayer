@@ -52,6 +52,16 @@ export default function Home() {
               🔍 404 Page
             </Link>
           </Button>
+          <Button asChild variant="outline" className="w-full">
+            <Link href="/login">
+              Login Page
+            </Link>
+          </Button>
+          <Button asChild variant="outline" className="w-full">
+            <Link href="/signup">
+              Signup Page
+            </Link>
+          </Button>
         </CardContent>
       </Card>
     </main>
