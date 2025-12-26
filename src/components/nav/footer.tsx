@@ -27,6 +27,9 @@ export function Footer() {
               <Link href="/companies" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 For Companies
               </Link>
+              <Link href="/vetting" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                How It Works
+              </Link>
               <Link href="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Pricing
               </Link>
@@ -37,8 +40,8 @@ export function Footer() {
               <Link href="/about" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 About Us
               </Link>
-              <Link href="/careers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Careers
+              <Link href="/faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                FAQ
               </Link>
               <Link href="/contact" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Contact
@@ -63,8 +66,9 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
           <TypographySmall>© {new Date().getFullYear()} TrustLayer. All rights reserved.</TypographySmall>
           <div className="flex gap-4">
-            <Link href="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
-            <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+            <Link href="/legal/terms-and-conditions" className="hover:text-foreground transition-colors">Terms of Service</Link>
+            <Link href="/legal/privacy-policy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+            <Link href="/legal/cookies" className="hover:text-foreground transition-colors">Cookie Policy</Link>
           </div>
         </div>
       </div>

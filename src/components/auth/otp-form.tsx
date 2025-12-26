@@ -116,8 +116,8 @@ export function OTPForm({ className, ...props }: React.ComponentProps<"div">) {
       </div>
 
       <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="/terms-and-services">Terms of Service</a>{" "}
-        and <a href="/privacy-policy">Privacy Policy</a>.
+        By clicking continue, you agree to our <a href="legal/terms-and-services">Terms of Service</a>{" "}
+        and <a href="legal/privacy-policy">Privacy Policy</a>.
       </FieldDescription>
     </div>
   )

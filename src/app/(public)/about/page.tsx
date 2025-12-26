@@ -75,7 +75,7 @@ export default function AboutPage() {
                     We are a remote-first company with roots in India.
                 </TypographyMuted>
                 <TypographyLarge>
-                    New Delhi, India
+                    Not found :)
                 </TypographyLarge>
            </div>
        </section>
