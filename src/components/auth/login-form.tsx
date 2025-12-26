@@ -14,6 +14,8 @@ import {
   FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { AlertCircle } from "lucide-react"
 
 export function LoginForm({
   className,
@@ -26,6 +28,7 @@ export function LoginForm({
       <form action={action}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
+            {/* ... logo/header ... */}
             <a
               href="#"
               className="flex flex-col items-center gap-2 font-medium"
@@ -42,9 +45,10 @@ export function LoginForm({
           </div>
 
           {state?.error && (
-            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-              {state.error}
-            </div>
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{state.error}</AlertDescription>
+            </Alert>
           )}
 
           <Field>

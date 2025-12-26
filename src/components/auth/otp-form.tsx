@@ -1,6 +1,7 @@
 "use client";
 
-import { GalleryVerticalEnd } from "lucide-react"
+import { GalleryVerticalEnd, AlertCircle, CheckCircle } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useActionState } from "react";
 import { verifyOtp, resendOTP } from "@/actions/auth";
 import { useSearchParams } from "next/navigation";
@@ -54,9 +55,10 @@ export function OTPForm({ className, ...props }: React.ComponentProps<"div">) {
           </div>
 
           {verifyState?.error && (
-            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-              {verifyState.error}
-            </div>
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{verifyState.error}</AlertDescription>
+            </Alert>
           )}
 
           <Field className="flex justify-center">
@@ -100,10 +102,16 @@ export function OTPForm({ className, ...props }: React.ComponentProps<"div">) {
           </button>
         </form>
         {resendState?.success && (
-            <p className="mt-2 text-sm text-green-600">{resendState.success}</p>
+             <Alert className="mt-2 border-green-200 bg-green-50 text-green-600 [&>svg]:text-green-600">
+               <CheckCircle className="h-4 w-4" />
+               <AlertDescription>{String(resendState.success)}</AlertDescription>
+             </Alert>
         )}
         {resendState?.error && (
-            <p className="mt-2 text-sm text-destructive">{resendState.error}</p>
+            <Alert variant="destructive" className="mt-2">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{resendState.error}</AlertDescription>
+            </Alert>
         )}
       </div>
 

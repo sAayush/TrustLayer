@@ -1,6 +1,7 @@
 "use client";
 
-import { GalleryVerticalEnd } from "lucide-react"
+import { GalleryVerticalEnd, AlertCircle, CheckCircle } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useActionState } from "react";
 import { signup } from "@/actions/auth";
 
@@ -42,15 +43,17 @@ export function SignupForm({
           </div>
 
           {state && 'success' in state && (
-             <div className="rounded-md bg-green-50 p-3 text-sm text-green-600 border border-green-200">
-               {String(state.success)}
-             </div>
+             <Alert className="border-green-200 bg-green-50 text-green-600 [&>svg]:text-green-600">
+               <CheckCircle className="h-4 w-4" />
+               <AlertDescription>{String(state.success)}</AlertDescription>
+             </Alert>
           )}
 
           {state?.error && typeof state.error === 'string' && (
-            <div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-              {state.error}
-            </div>
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{state.error}</AlertDescription>
+            </Alert>
           )}
 
           <Field>
