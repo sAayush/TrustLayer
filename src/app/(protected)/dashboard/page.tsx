@@ -17,7 +17,7 @@ export default async function DashboardPage() {
       <main className="flex flex-col gap-4 text-center">
         <h1 className="text-4xl font-bold">Welcome to the Dashboard</h1>
         <p className="text-lg">You are logged in as {user.email}</p>
-        <form action="/auth/signout" method="post">
+        <form action="/auth/logout" method="post">
              <button className="bg-foreground text-background py-2 px-4 rounded hover:opacity-90">
                 Sign Out
              </button>

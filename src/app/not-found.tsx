@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Home, Search, ArrowLeft } from "lucide-react";
+import { TypographyH1, TypographyP } from "@/components/ui/typography";
 
 export default function NotFound() {
   return (
@@ -27,11 +28,11 @@ export default function NotFound() {
           <CardHeader className="text-center">
             {/* Large 404 Display */}
             <div className="relative mb-4">
-              <h1 className="bg-gradient-to-br from-primary via-primary/80 to-accent bg-clip-text text-9xl font-bold text-transparent">
+              <TypographyH1 className="bg-gradient-to-br from-primary via-primary/80 to-accent bg-clip-text text-9xl font-bold text-transparent">
                 404
-              </h1>
+              </TypographyH1>
               <div className="absolute inset-0 -z-10 blur-2xl">
-                <h1 className="text-9xl font-bold text-primary/20">404</h1>
+                <TypographyH1 className="text-9xl font-bold text-primary/20">404</TypographyH1>
               </div>
             </div>
             
@@ -45,29 +46,29 @@ export default function NotFound() {
           
           <CardContent className="space-y-6">
             <div className="rounded-lg bg-muted/50 p-6 text-center">
-              <p className="text-sm text-muted-foreground">
+              <TypographyP className="text-sm text-muted-foreground">
                 The page you&apos;re looking for might have been removed, had its name changed, 
                 or is temporarily unavailable.
-              </p>
+              </TypographyP>
             </div>
             
             <div className="grid gap-4 sm:grid-cols-3">
               <div className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card p-4 text-center transition-colors hover:bg-accent/5">
                 <Home className="h-8 w-8 text-primary" />
-                <p className="text-sm font-medium">Return Home</p>
-                <p className="text-xs text-muted-foreground">Start fresh</p>
+                <TypographyP className="text-sm font-medium">Return Home</TypographyP>
+                <TypographyP className="text-xs text-muted-foreground">Start fresh</TypographyP>
               </div>
               
               <div className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card p-4 text-center transition-colors hover:bg-accent/5">
                 <Search className="h-8 w-8 text-primary" />
-                <p className="text-sm font-medium">Search</p>
-                <p className="text-xs text-muted-foreground">Find content</p>
+                <TypographyP className="text-sm font-medium">Search</TypographyP>
+                <TypographyP className="text-xs text-muted-foreground">Find content</TypographyP>
               </div>
               
               <div className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card p-4 text-center transition-colors hover:bg-accent/5">
                 <ArrowLeft className="h-8 w-8 text-primary" />
-                <p className="text-sm font-medium">Go Back</p>
-                <p className="text-xs text-muted-foreground">Previous page</p>
+                <TypographyP className="text-sm font-medium">Go Back</TypographyP>
+                <TypographyP className="text-xs text-muted-foreground">Previous page</TypographyP>
               </div>
             </div>
           </CardContent>
@@ -76,7 +77,7 @@ export default function NotFound() {
             <Button asChild size="lg" className="w-full sm:w-auto">
               <Link href="/">
                 <Home className="mr-2 h-4 w-4" />
-                Back to Home
+                <TypographyP>Back to Home</TypographyP>
               </Link>
             </Button>
             <Button

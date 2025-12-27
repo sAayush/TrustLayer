@@ -1,18 +1,25 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { authSchema } from "@/schemas/auth";
+import { loginSchema, signupSchema, AuthState, otpSchema } from "@/schemas/auth";
 import { redirect } from "next/navigation";
+import z from "zod";
 
-export async function login(prevState: any, formData: FormData) {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000" 
+
+export async function login(prevState: AuthState | null, formData: FormData) {
+  const fields = loginSchema.safeParse(Object.fromEntries(formData));
+
+  if (!fields.success) {
+    const flatErrors = fields.error.flatten();
+    return { fieldErrors: flatErrors.fieldErrors };
+  }
 
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signInWithPassword({
-    email,
-    password,
+    email: fields.data.email,
+    password: fields.data.password,
   });
 
   if (error) {
@@ -22,43 +29,41 @@ export async function login(prevState: any, formData: FormData) {
   redirect("/dashboard");
 }
 
-export async function signup(prevState: any, formData: FormData) {
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  const confirmPassword = formData.get("confirmPassword") as string;
+export async function signup(prevState: AuthState | null, formData: FormData) {
+  const fields = signupSchema.safeParse(Object.fromEntries(formData));
 
-  const validatedFields = authSchema.safeParse({
-    email,
-    password,
-    confirmPassword,
-  });
-
-  if (!validatedFields.success) {
-    return {
-      error: validatedFields.error.flatten().fieldErrors,
-    };
+  if (!fields.success) {
+    const flatErrors = fields.error.flatten();
+    return { fieldErrors: flatErrors.fieldErrors };
   }
+
+  const email = fields.data.email;
+  const password = fields.data.password;
 
   const supabase = await createClient();
 
   const { error } = await supabase.auth.signUp({
     email,
     password,
-    // options: {
-    //     emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/callback`,
-    // }
   });
 
   if (error) {
     return { error: error.message };
   }
 
-  redirect(`/otp?email=${encodeURIComponent(email)}`);
+  redirect(`/otp?email=${encodeURIComponent(fields.data.email)}`);
 }
 
-export async function verifyOtp(prevState: any, formData: FormData) {
-  const email = formData.get("email") as string;
-  const token = formData.get("token") as string;
+export async function verifyOtp(prevState: AuthState | null, formData: FormData) {
+  const fields = otpSchema.safeParse(Object.fromEntries(formData));
+
+  if (!fields.success) {
+    const flatErrors = fields.error.flatten();
+    return { fieldErrors: flatErrors.fieldErrors };
+  }
+
+  const email = fields.data.email;
+  const token = fields.data.code;
 
   const supabase = await createClient();
 
@@ -75,8 +80,15 @@ export async function verifyOtp(prevState: any, formData: FormData) {
   redirect("/dashboard");
 }
 
-export async function resendOTP(prevState: any, formData: FormData) {
-    const email = formData.get("email") as string;
+export async function resendOTP(prevState: AuthState | null, formData: FormData) {
+    const fields = otpSchema.safeParse(Object.fromEntries(formData));
+
+    if (!fields.success) {
+        const flatErrors = fields.error.flatten();
+        return { fieldErrors: flatErrors.fieldErrors };
+    }
+
+    const email = fields.data.email;
     const supabase = await createClient();
     const { error } = await supabase.auth.resend({
         email,
@@ -91,5 +103,24 @@ export async function resendOTP(prevState: any, formData: FormData) {
 export async function logout() {
     const supabase = await createClient();
     await supabase.auth.signOut();
-    redirect("/login");
+    redirect("/");
+}
+
+export async function loginWithSocial(provider: "google" | "github") {
+  const supabase = await createClient()
+
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo: `${siteUrl}/auth/callback?next=/dashboard`,
+    },
+  })
+
+  if (error) {
+    redirect("/login?error=oauth_error")
+  }
+
+  if (data.url) {
+    redirect(data.url)
+  }
 }

@@ -18,12 +18,12 @@ const eslintConfig = defineConfig([
   // Custom rules
   {
     rules: {
-      "max-len": ["error", { code: 120 }],
+      "max-len": ["error", { code: 90 }],
       // General JavaScript/TypeScript rules
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "no-unused-vars": "off", // Turn off base rule
       "@typescript-eslint/no-unused-vars": [
-        "warn",
+        "error",
         {
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_",
@@ -47,7 +47,7 @@ const eslintConfig = defineConfig([
       "@next/next/no-html-link-for-pages": "error",
       
       // TypeScript specific
-      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-non-null-assertion": "warn",
       
