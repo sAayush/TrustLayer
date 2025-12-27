@@ -33,7 +33,7 @@ export async function signup(prevState: AuthState | null, formData: FormData) {
   const fields = signupSchema.safeParse(Object.fromEntries(formData));
 
   if (!fields.success) {
-    const flatErrors = fields.error.flatten();
+    const flatErrors = z.flattenError(fields.error);
     return { fieldErrors: flatErrors.fieldErrors };
   }
 
@@ -58,7 +58,7 @@ export async function verifyOtp(prevState: AuthState | null, formData: FormData)
   const fields = otpSchema.safeParse(Object.fromEntries(formData));
 
   if (!fields.success) {
-    const flatErrors = fields.error.flatten();
+    const flatErrors = z.flattenError(fields.error);
     return { fieldErrors: flatErrors.fieldErrors };
   }
 
@@ -84,7 +84,7 @@ export async function resendOTP(prevState: AuthState | null, formData: FormData)
     const fields = otpSchema.safeParse(Object.fromEntries(formData));
 
     if (!fields.success) {
-        const flatErrors = fields.error.flatten();
+        const flatErrors = z.flattenError(fields.error);
         return { fieldErrors: flatErrors.fieldErrors };
     }
 
