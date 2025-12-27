@@ -11,7 +11,7 @@ export async function login(prevState: AuthState | null, formData: FormData) {
   const fields = loginSchema.safeParse(Object.fromEntries(formData));
 
   if (!fields.success) {
-    const flatErrors = fields.error.flatten();
+    const flatErrors = z.flattenError(fields.error);
     return { fieldErrors: flatErrors.fieldErrors };
   }
 
