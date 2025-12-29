@@ -39,36 +39,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      profile_skills: {
-        Row: {
-          profile_id: string
-          skill_id: string
-        }
-        Insert: {
-          profile_id: string
-          skill_id: string
-        }
-        Update: {
-          profile_id?: string
-          skill_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "profile_skills_profile_id_fkey"
-            columns: ["profile_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profile_skills_skill_id_fkey"
-            columns: ["skill_id"]
-            isOneToOne: false
-            referencedRelation: "skills"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -126,9 +96,12 @@ export type Database = {
           current_company: string | null
           github_url: string | null
           id: string
+          is_fresher: boolean | null
+          is_vetted: boolean | null
           leetcode_url: string | null
           linkedin_url: string | null
           other_links: Json | null
+          other_skills: string[] | null
           portfolio_url: string | null
           resume_url: string | null
           total_experience_years: number | null
@@ -139,9 +112,12 @@ export type Database = {
           current_company?: string | null
           github_url?: string | null
           id: string
+          is_fresher?: boolean | null
+          is_vetted?: boolean | null
           leetcode_url?: string | null
           linkedin_url?: string | null
           other_links?: Json | null
+          other_skills?: string[] | null
           portfolio_url?: string | null
           resume_url?: string | null
           total_experience_years?: number | null
@@ -152,9 +128,12 @@ export type Database = {
           current_company?: string | null
           github_url?: string | null
           id?: string
+          is_fresher?: boolean | null
+          is_vetted?: boolean | null
           leetcode_url?: string | null
           linkedin_url?: string | null
           other_links?: Json | null
+          other_skills?: string[] | null
           portfolio_url?: string | null
           resume_url?: string | null
           total_experience_years?: number | null
@@ -166,6 +145,36 @@ export type Database = {
             columns: ["id"]
             isOneToOne: true
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      talent_skills: {
+        Row: {
+          profile_id: string
+          skill_id: string
+        }
+        Insert: {
+          profile_id: string
+          skill_id: string
+        }
+        Update: {
+          profile_id?: string
+          skill_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profile_skills_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "profile_skills_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
             referencedColumns: ["id"]
           },
         ]

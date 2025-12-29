@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { AlertCircle, Home, RefreshCw } from "lucide-react";
+import { TypographyP } from "@/components/ui/typography";
 
 export default function Error({
   error,
@@ -46,22 +47,22 @@ export default function Error({
           
           <CardContent className="space-y-4">
             <div className="rounded-lg bg-muted p-4">
-              <p className="mb-2 text-sm font-semibold text-muted-foreground">Error Details:</p>
+              <TypographyP className="mb-2 text-sm font-semibold text-muted-foreground">Error Details:</TypographyP>
               <code className="block break-all text-xs text-foreground/80">
                 {error.message || "An unknown error occurred"}
               </code>
               {error.digest && (
-                <p className="mt-2 text-xs text-muted-foreground">
+                <TypographyP className="mt-2 text-xs text-muted-foreground">
                   Error ID: {error.digest}
-                </p>
+                </TypographyP>
               )}
             </div>
             
             <div className="rounded-lg border border-border bg-card p-4">
-              <p className="text-sm text-muted-foreground">
+              <TypographyP className="text-sm text-muted-foreground">
                 Don&apos;t worry! This error has been logged and our team has been notified. 
                 You can try refreshing the page or return to the homepage.
-              </p>
+              </TypographyP>
             </div>
           </CardContent>
           
