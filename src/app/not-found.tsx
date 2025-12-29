@@ -11,7 +11,11 @@ export default function NotFound() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-background">
       {/* Dynamic Grid Pattern Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]" />
+      <div className={
+        "absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px), " +
+        "linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px] " +
+        "[mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]"
+      } />
       
       {/* Gradient Overlays */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
@@ -20,7 +24,10 @@ export default function NotFound() {
       {/* Animated Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -left-4 top-1/4 h-24 w-24 animate-pulse rounded-full bg-primary/5 blur-3xl" />
-        <div className="absolute -right-4 bottom-1/4 h-32 w-32 animate-pulse rounded-full bg-accent/5 blur-3xl [animation-delay:1s]" />
+        <div className={
+          "absolute -right-4 bottom-1/4 h-32 w-32 animate-pulse rounded-full bg-accent/5 blur-3xl " +
+          "[animation-delay:1s]"
+        } />
       </div>
 
       <div className="relative flex min-h-screen items-center justify-center p-4">
@@ -28,7 +35,10 @@ export default function NotFound() {
           <CardHeader className="text-center">
             {/* Large 404 Display */}
             <div className="relative mb-4">
-              <TypographyH1 className="bg-gradient-to-br from-primary via-primary/80 to-accent bg-clip-text text-9xl font-bold text-transparent">
+              <TypographyH1 className={
+                "bg-gradient-to-br from-primary via-primary/80 " +
+                "to-accent bg-clip-text text-9xl font-bold text-transparent"
+              }>
                 404
               </TypographyH1>
               <div className="absolute inset-0 -z-10 blur-2xl">
@@ -53,19 +63,28 @@ export default function NotFound() {
             </div>
             
             <div className="grid gap-4 sm:grid-cols-3">
-              <div className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card p-4 text-center transition-colors hover:bg-accent/5">
+              <div className={
+                "flex flex-col items-center gap-2 rounded-lg border border-border " +
+                "bg-card p-4 text-center transition-colors hover:bg-accent/5"
+              }>
                 <Home className="h-8 w-8 text-primary" />
                 <TypographyP className="text-sm font-medium">Return Home</TypographyP>
                 <TypographyP className="text-xs text-muted-foreground">Start fresh</TypographyP>
               </div>
               
-              <div className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card p-4 text-center transition-colors hover:bg-accent/5">
+              <div className={
+                "flex flex-col items-center gap-2 rounded-lg border border-border " +
+                "bg-card p-4 text-center transition-colors hover:bg-accent/5"
+              }>
                 <Search className="h-8 w-8 text-primary" />
                 <TypographyP className="text-sm font-medium">Search</TypographyP>
                 <TypographyP className="text-xs text-muted-foreground">Find content</TypographyP>
               </div>
               
-              <div className="flex flex-col items-center gap-2 rounded-lg border border-border bg-card p-4 text-center transition-colors hover:bg-accent/5">
+              <div className={
+                "flex flex-col items-center gap-2 rounded-lg border border-border " +
+                "bg-card p-4 text-center transition-colors hover:bg-accent/5"
+              }>
                 <ArrowLeft className="h-8 w-8 text-primary" />
                 <TypographyP className="text-sm font-medium">Go Back</TypographyP>
                 <TypographyP className="text-xs text-muted-foreground">Previous page</TypographyP>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { TypographyH1, TypographyLead, TypographyH3, TypographyP } from "@/components/ui/typography";
+import { TypographyH1, TypographyLead, TypographyH3 } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -53,19 +53,22 @@ export default function FAQPage() {
               <AccordionItem value="item-2">
                 <AccordionTrigger>Can I retake the test if I fail?</AccordionTrigger>
                 <AccordionContent>
-                  Yes, you can retake the assessment after a 3-month cooling-off period. This gives you time to improve your skills.
+                  Yes, you can retake the assessment after a 3-month cooling-off period. 
+                  This gives you time to improve your skills.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
                 <AccordionTrigger>What tech stacks do you support?</AccordionTrigger>
                 <AccordionContent>
-                  We currently support JavaScript/TypeScript (React, Node.js), Python, Go, and Java. We are constantly adding new tracks.
+                  We currently support JavaScript/TypeScript (React, Node.js), 
+                  Python, Go, and Java. We are constantly adding new tracks.
                 </AccordionContent>
               </AccordionItem>
                <AccordionItem value="item-4">
                 <AccordionTrigger>Is this a freelance platform?</AccordionTrigger>
                 <AccordionContent>
-                  We focus on long-term, full-time remote roles. While some contract opportunities exist, our main goal is stable employment with top global startups.
+                  We focus on long-term, full-time remote roles. 
+                  While some contract opportunities exist, our main goal is stable employment with top global startups.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -77,25 +80,29 @@ export default function FAQPage() {
               <AccordionItem value="item-1">
                 <AccordionTrigger>What is the cost?</AccordionTrigger>
                 <AccordionContent>
-                  We charge a flat success fee of ₹10,000 only after you make a hire. There are no upfront costs or subscription fees to browse candidates.
+                  We charge a flat success fee of ₹10,000 only after you make a hire. 
+                  There are no upfront costs or subscription fees to browse candidates.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-2">
                 <AccordionTrigger>What if the developer quits?</AccordionTrigger>
                 <AccordionContent>
-                  If a developer leaves within the first 3 months, we will replace them for free or refund your success fee. We stand by our vetting quality.
+                  If a developer leaves within the first 3 months, we will replace them for free or refund your success fee. 
+                  We stand by our vetting quality.
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">
                 <AccordionTrigger>Do you handle payroll?</AccordionTrigger>
                 <AccordionContent>
-                   No, you hire the developer directly. We are a talent partner, not an EOR (Employer of Record). However, we can recommend partners for payroll if needed.
+                   No, you hire the developer directly. We are a talent partner, not an EOR (Employer of Record). 
+                   However, we can recommend partners for payroll if needed.
                 </AccordionContent>
               </AccordionItem>
                <AccordionItem value="item-4">
                 <AccordionTrigger>How long does it take to hire?</AccordionTrigger>
                 <AccordionContent>
-                  Most companies hire within 7 days. Since our candidates are pre-vetted, you can skip the technical screening and go straight to the final interview.
+                  Most companies hire within 7 days. Since our candidates are pre-vetted, 
+                  you can skip the technical screening and go straight to the final interview.
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

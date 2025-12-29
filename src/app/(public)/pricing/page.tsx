@@ -7,7 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { TypographyH1, TypographyH2, TypographyH3, TypographyLead, TypographyMuted } from "@/components/ui/typography";
+import { TypographyH1, TypographyH2, TypographyLead } from "@/components/ui/typography";
 import { Card } from "@/components/ui/card";
 
 export default function PricingPage() {
@@ -31,7 +31,8 @@ export default function PricingPage() {
           </div>
           
           <div className="mb-8 text-sm text-muted-foreground">
-             Charged only after the candidate completes <span className="font-semibold text-foreground">3 months</span> at your company.
+             Charged only after the candidate completes 
+             <span className="font-semibold text-foreground">3 months</span> at your company.
           </div>
 
           <ul className="space-y-4 text-left mb-8">
@@ -53,7 +54,7 @@ export default function PricingPage() {
             </li>
           </ul>
 
-          <Button size="lg" className="w-full rounded-full" style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-secondary)' }} asChild>
+          <Button size="lg" className="w-full rounded-full bg-color-primary text-color-secondary" asChild>
             <Link href="/companies">Hire Talent Now</Link>
           </Button>
         </Card>
@@ -66,25 +67,28 @@ export default function PricingPage() {
             <AccordionItem value="item-1">
               <AccordionTrigger>When do I pay the fee?</AccordionTrigger>
               <AccordionContent>
-                We only send you an invoice after the candidate has successfully completed 3 months of employment with you. If they leave before that, you owe us nothing.
+                We only send you an invoice after the candidate has successfully completed 3 months of employment with you. 
+                If they leave before that, you owe us nothing.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger>Is there any cost for developers?</AccordionTrigger>
               <AccordionContent>
-                No. TrustLayer is 100% free for developers. We believe you shouldn't have to pay to prove your skills.
+                No. TrustLayer is 100% free for developers. We believe you shouldn&apos;t have to pay to prove your skills.
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-3">
-              <AccordionTrigger>What happens if a candidate doesn't work out?</AccordionTrigger>
+              <AccordionTrigger>What happens if a candidate doesn&apos;t work out?</AccordionTrigger>
               <AccordionContent>
-                If a candidate leaves or is let go within the first 3 months, you pay nothing. We will also prioritize finding you a replacement immediately.
+                If a candidate leaves or is let go within the first 3 months, you pay nothing. 
+                We will also prioritize finding you a replacement immediately.
               </AccordionContent>
             </AccordionItem>
              <AccordionItem value="item-4">
               <AccordionTrigger>How do you vet the developers?</AccordionTrigger>
               <AccordionContent>
-                Our vetting process includes identity verification, a real-world coding project (approx. 4-6 hours), a code review, a video explanation of their architecture, and a final interview with our senior engineers.
+                Our vetting process includes identity verification, a real-world coding project (approx. 4-6 hours), 
+                a code review, a video explanation of their architecture, and a final interview with our senior engineers.
               </AccordionContent>
             </AccordionItem>
           </Accordion>

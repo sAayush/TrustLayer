@@ -13,7 +13,7 @@ export type OnboardingState = {
   success?: boolean
 }
 
-export async function saveTalentOnboarding(prevState: OnboardingState, formData: FormData): Promise<OnboardingState> {
+export async function saveTalentOnboarding(formData: FormData): Promise<OnboardingState> {
   const supabase = await createClient()
   
   const { data: { user } } = await supabase.auth.getUser()
@@ -43,7 +43,15 @@ export async function saveTalentOnboarding(prevState: OnboardingState, formData:
     }
   }
 
-  const { fullName, currentCompany, totalExperienceYears, linkedinUrl, githubUrl, portfolioUrl, skills, isFresher } = validatedFields.data
+  const {
+    fullName, 
+    currentCompany, 
+    totalExperienceYears, 
+    linkedinUrl, 
+    githubUrl, 
+    portfolioUrl, 
+    skills, 
+    isFresher } = validatedFields.data
 
   try {
     // 1. Update Profile (Basic Info)
@@ -66,9 +74,10 @@ export async function saveTalentOnboarding(prevState: OnboardingState, formData:
 
     if (talentError) throw new Error('Failed to update talent profile: ' + talentError.message)
 
-  } catch (error: any) {
+  } catch (error) {
     console.error('Onboarding Error:', error)
-    return { message: error.message || 'Something went wrong', success: false }
+    const message = error instanceof Error ? error.message : 'Something went wrong'
+    return { message, success: false }
   }
 
   revalidatePath('/talent') // Or wherever they go next

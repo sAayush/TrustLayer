@@ -8,9 +8,18 @@ export async function updateSession(request: NextRequest) {
   })
 
   // 2. Setup the Supabase Client
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error(
+      "Missing Supabase environment variables. Please check your .env.local file."
+    );
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
@@ -42,7 +51,17 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname === '/' ||                 // Landing Page
     request.nextUrl.pathname.startsWith('/login') ||    // Login Page
     request.nextUrl.pathname.startsWith('/signup') ||   // Signup Page
-    request.nextUrl.pathname.startsWith('/auth')    // OAuth Callback
+    request.nextUrl.pathname.startsWith('/auth') ||
+    // Landing stuff
+    request.nextUrl.pathname.startsWith('/about') ||
+    request.nextUrl.pathname.startsWith('/companies') ||
+    request.nextUrl.pathname.startsWith('/developers') ||
+    request.nextUrl.pathname.startsWith('/faq') ||
+    request.nextUrl.pathname.startsWith('/pricing') ||
+    request.nextUrl.pathname.startsWith('/contact') ||
+    request.nextUrl.pathname.startsWith('/legal/privacy') ||
+    request.nextUrl.pathname.startsWith('/legal/terms') ||
+    request.nextUrl.pathname.startsWith('/legal/cookies');
     
   // 5. THE GATEKEEPER LOGIC
   // If user is NOT logged in AND they are trying to visit a PRIVATE page...
