@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { loginSchema, signupSchema, AuthState, otpSchema } from "@/schemas/auth";
 import { redirect } from "next/navigation";
 import z from "zod";
+import { getAuthRedirectPath } from "@/utils/auth-redirect";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000" 
 
@@ -26,7 +27,8 @@ export async function login(prevState: AuthState | null, formData: FormData) {
     return { error: error.message };
   }
 
-  redirect("/dashboard");
+  const redirectTo = await getAuthRedirectPath(supabase);
+  redirect(redirectTo);
 }
 
 export async function signup(prevState: AuthState | null, formData: FormData) {
@@ -77,7 +79,8 @@ export async function verifyOtp(prevState: AuthState | null, formData: FormData)
     return { error: error.message };
   }
 
-  redirect("/dashboard");
+  const redirectTo = await getAuthRedirectPath(supabase);
+  redirect(redirectTo);
 }
 
 export async function resendOTP(prevState: AuthState | null, formData: FormData) {
@@ -112,7 +115,7 @@ export async function loginWithSocial(provider: "google" | "github") {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider,
     options: {
-      redirectTo: `${siteUrl}/auth/callback?next=/dashboard`,
+      redirectTo: `${siteUrl}/auth/callback`,
     },
   })
 

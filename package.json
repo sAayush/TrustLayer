@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:model": "npx supabase gen types typescript --linked > src/utils/supabase/types/database.ts",
+    "db:model": "npx supabase gen types typescript --linked > src/utils/types/database.ts",
     "db:push": "npx supabase db push"
   },
   "dependencies": {
