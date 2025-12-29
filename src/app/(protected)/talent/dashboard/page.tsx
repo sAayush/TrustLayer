@@ -1,3 +1,4 @@
+
 import { TypographyH1, TypographyP } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";

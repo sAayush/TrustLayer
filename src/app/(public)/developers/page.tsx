@@ -9,7 +9,7 @@ export default function DevelopersPage() {
     <div className="flex flex-col min-h-screen">
       {/* Hero */}
       <section className="bg-gradient-to-b from-blue-50/50 to-background dark:from-blue-950/20 py-20 md:py-32 border-b">
-        <div className="container px-4 text-center max-w-4xl mx-auto space-y-6">
+        <div className="container m-auto px-4 text-center max-w-4xl mx-auto space-y-6">
            <TypographyH1 className="text-4xl md:text-6xl">
             Skip the Interview.<br/>
             <span className="text-blue-600 dark:text-blue-400">Get Hired by Output.</span>
@@ -30,7 +30,7 @@ export default function DevelopersPage() {
 
       {/* Benefits */}
       <section className="py-24">
-        <div className="container px-4">
+        <div className="container m-auto px-4">
           <div className="text-center mb-16">
             <TypographyH2 className="text-3xl border-none mb-4">Why Top Developers Choose TrustLayer</TypographyH2>
           </div>
@@ -74,7 +74,7 @@ export default function DevelopersPage() {
 
       {/* The Exam - Step by Step */}
       <section className="py-24 bg-secondary/30 border-y">
-        <div className="container px-4">
+        <div className="container m-auto px-4">
           <div className="text-center mb-16 max-w-3xl mx-auto">
              <TypographyH2 className="text-3xl border-none mb-4">The Vetting Process</TypographyH2>
              <TypographyMuted>It takes about 4-6 hours to complete. Do it on your own time.</TypographyMuted>
@@ -117,7 +117,7 @@ export default function DevelopersPage() {
 
       {/* FAQs / CTA */}
        <section className="py-24">
-        <div className="container px-4 text-center">
+        <div className="container m-auto px-4 text-center">
           <div className="bg-primary/5 dark:bg-primary/10 rounded-3xl p-8 md:p-16">
             <TypographyH2 className="text-3xl border-none mb-6">Ready to prove your skills?</TypographyH2>
             <TypographyLead className="max-w-xl mx-auto mb-8">

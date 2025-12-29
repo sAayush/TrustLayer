@@ -9,7 +9,7 @@ export default function AboutPage() {
     <div className="flex flex-col min-h-screen">
       {/* Hero / Mission */}
       <section className="py-20 md:py-32 bg-muted/20 border-b">
-        <div className="container px-4 text-center max-w-4xl mx-auto space-y-8">
+        <div className="container m-auto px-4 text-center max-w-4xl mx-auto space-y-8">
            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground hover:bg-primary/80 mb-4">
               Our Mission
            </div>
@@ -24,7 +24,7 @@ export default function AboutPage() {
 
       {/* Story */}
       <section className="py-24">
-        <div className="container px-4">
+        <div className="container m-auto px-4">
              <div className="grid md:grid-cols-2 gap-12 items-center">
                  <div className="space-y-6">
                      <TypographyH2 className="text-3xl border-none">Why TrustLayer?</TypographyH2>
@@ -45,7 +45,7 @@ export default function AboutPage() {
 
       {/* Team */}
       <section className="py-24 bg-muted/30">
-        <div className="container px-4 text-center">
+        <div className="container m-auto px-4 text-center">
              <TypographyH2 className="text-3xl border-none mb-16">Meet the Team</TypographyH2>
              <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto justify-center">
                  {/* Founder */}
@@ -66,7 +66,7 @@ export default function AboutPage() {
 
        {/* Location */}
        <section className="py-24 border-t">
-           <div className="container px-4 text-center">
+           <div className="container m-auto px-4 text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-6 text-primary">
                     <MapPin className="w-8 h-8" />
                 </div>

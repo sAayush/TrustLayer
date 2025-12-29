@@ -7,7 +7,7 @@ import { TypographyH3, TypographyMuted, TypographySmall, TypographyP } from "@/c
 export function Footer() {
   return (
     <footer className="bg-background border-t">
-      <div className="container px-4 md:px-8 py-12 md:py-16 max-w-screen-2xl">
+      <div className="container m-auto px-4 md:px-8 py-12 md:py-16 max-w-screen-2xl">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-12">
           <div className="col-span-1 md:col-span-1">
             <Link href="/" className="flex items-center space-x-2">

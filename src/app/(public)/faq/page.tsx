@@ -14,7 +14,7 @@ export default function FAQPage() {
   const [activeTab, setActiveTab] = useState<"dev" | "company">("dev");
 
   return (
-    <div className="container py-12 md:py-24 max-w-4xl mx-auto space-y-12">
+    <div className="container  py-12 md:py-24 max-w-4xl mx-auto space-y-12">
       <div className="text-center space-y-4">
         <TypographyH1>Frequently Asked Questions</TypographyH1>
         <TypographyLead>
