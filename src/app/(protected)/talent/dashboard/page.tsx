@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { getAuthRedirectPath } from "@/utils/auth-redirect";
+import { logout } from "@/actions/auth";
 
 export default async function talentDashboard() {
     const supabase = await createClient();
@@ -34,8 +35,8 @@ export default async function talentDashboard() {
                 Welcome to your dashboard. Here you can manage your profile, view your applications, and more.
             </TypographyP>
             <TypographyP>You are logged in as {user.email}</TypographyP>
-            <form action="/auth/logout" method="post">
-                <Button className="bg-foreground text-background py-2 px-4 rounded hover:opacity-90">
+            <form action={logout}>
+                <Button type="submit">
                     Sign Out
                 </Button>
             </form>

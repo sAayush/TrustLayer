@@ -17,7 +17,7 @@ export default async function OnboardingPage() {
   }
 
   return (
-    <div className="container max-w-4xl py-10">
+    <div className="container mx-auto max-w-4xl py-10">
       <div className="text-center mb-10">
         <TypographyH1>Complete Your Profile</TypographyH1>
         <TypographyP>
