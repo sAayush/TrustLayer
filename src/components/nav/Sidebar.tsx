@@ -58,20 +58,21 @@ export default function SidebarClient({
                   : undefined;
                 const isActive = activePath.startsWith(route.href);
                 return (
-                  <SidebarMenuItem key={route.href} data-active={isActive}>
-                    <Link
-                      href={route.href}
-                      className={`w-full rounded-md p-2 flex items-center gap-2 hover:bg-accent-hover`}
+                  <SidebarMenuItem key={route.href}>
+                    <SidebarMenuButton
+                      asChild
+                      tooltip={route.label}
+                      isActive={isActive}
+                      className="w-full"
                     >
-                      <SidebarMenuButton asChild>
-                        <a className={`flex items-center gap-2 w-full ${isActive ? "font-bold bg-accent" : ""}`}>
-                          {Icon && <Icon className="size-10" />}
-                          <span className={`text-base ${isActive ? "font-bold" : "font-medium"}`}>
-                            {route.label}
-                          </span>
-                        </a>
-                      </SidebarMenuButton>
-                    </Link>
+                      <Link
+                        href={route.href}
+                        className="flex items-center gap-2"
+                      >
+                        {Icon && <Icon className="size-4" />}
+                        <span className="font-medium">{route.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
               })}
@@ -79,11 +80,28 @@ export default function SidebarClient({
           </SidebarContent>
 
           <SidebarFooter>
-            <div className="p-2">
-              <Button asChild variant="ghost">
-                <Link href="/">Back to site</Link>
-              </Button>
-            </div>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild tooltip="Back to site">
+                  <Link href="/">
+                    <Icons.ArrowLeft className="size-4" />
+                    <span>Back to site</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  tooltip="Log out"
+                  onClick={() => {
+                    // console.log("Logging out...");
+                  }}
+                  className="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                >
+                  <Icons.LogOut className="size-4" />
+                  <span>Log out</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
           </SidebarFooter>
         </Sidebar>
         <SidebarInset className="flex-1 p-6">{children}</SidebarInset>

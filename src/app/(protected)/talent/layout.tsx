@@ -4,7 +4,7 @@ import { getProfileById } from "@/data/profiles";
 import { TypographyH1, TypographyP } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import SidebarClient from "../../../components/Sidebar";
+import SidebarClient from "../../../components/nav/Sidebar";
 import talentSidebarRoutes from "./sidebarRoutes";
 
 export default async function TalentLayout({
