@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -11,11 +12,30 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
+import { User } from "@supabase/supabase-js";
+import { cn } from "@/lib/utils";
 
-export function PublicNav() {
+interface PublicNavProps {
+  user: User | null;
+  dashboardUrl?: string;
+}
+
+export function PublicNav({ user, dashboardUrl = '/dashboard' }: PublicNavProps) {
+  const pathname = usePathname();
+
+  const navItems = [
+    { name: "For Developers", href: "/developers" },
+    { name: "For Companies", href: "/companies" },
+    { name: "Pricing", href: "/pricing" },
+    { name: "About", href: "/about" },
+  ];
+
+  const isActive = (href: string) => {
+    return pathname === href;
+  };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background">
       <div className="container flex h-16 max-w-screen-2xl items-center justify-between px-4 md:px-8">
         <div className="flex items-center gap-6">
           <Link href="/" className="mr-6 flex items-center space-x-2">
@@ -27,34 +47,20 @@ export function PublicNav() {
           <div className="hidden md:flex">
             <NavigationMenu>
               <NavigationMenuList>
-                <NavigationMenuItem>
-                  <Link href="/developers" passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      For Developers
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link href="/companies" passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      For Companies
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link href="/pricing" passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      Pricing
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link href="/about" passHref>
-                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                      About
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
+                {navItems.map((item) => (
+                  <NavigationMenuItem key={item.href}>
+                    <Link href={item.href} passHref>
+                      <NavigationMenuLink
+                        className={cn(
+                          navigationMenuTriggerStyle(),
+                          isActive(item.href) && "bg-accent text-accent-foreground"
+                        )}
+                      >
+                        {item.name}
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuItem>
+                ))}
               </NavigationMenuList>
             </NavigationMenu>
           </div>
@@ -63,12 +69,20 @@ export function PublicNav() {
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
           <ModeToggle />
-          <Link href="/login">
-            <Button variant="ghost">Log in</Button>
-          </Link>
-          <Link href="/signup">
-            <Button>Get Started</Button>
-          </Link>
+          {user ? (
+            <Link href={dashboardUrl} className="cursor-pointer">
+               <Button className="cursor-pointer">Dashboard</Button>
+            </Link>
+          ) : (
+            <>
+              <Link href="/login" className="cursor-pointer">
+                <Button variant="ghost" className="cursor-pointer">Log in</Button>
+              </Link>
+              <Link href="/signup" className="cursor-pointer">
+                <Button className="cursor-pointer">Get Started</Button>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu & Toggle */}
@@ -76,7 +90,7 @@ export function PublicNav() {
           <ModeToggle />
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="cursor-pointer">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
@@ -89,25 +103,35 @@ export function PublicNav() {
                   TrustLayer
                 </Link>
                 <div className="flex flex-col gap-4">
-                  <Link href="/developers" className="text-lg font-medium text-muted-foreground hover:text-foreground">
-                    For Developers
-                  </Link>
-                  <Link href="/companies" className="text-lg font-medium text-muted-foreground hover:text-foreground">
-                    For Companies
-                  </Link>
-                  <Link href="/pricing" className="text-lg font-medium text-muted-foreground hover:text-foreground">
-                    Pricing
-                  </Link>
-                  <Link href="/about" className="text-lg font-medium text-muted-foreground hover:text-foreground">
-                    About
-                  </Link>
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={cn(
+                        "text-lg font-medium transition-colors hover:text-foreground",
+                        isActive(item.href)
+                          ? "text-foreground font-semibold"
+                          : "text-muted-foreground"
+                      )}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
                   <div className="my-2 border-t" />
-                  <Link href="/login" className="text-lg font-medium text-muted-foreground hover:text-foreground">
-                    Log in
-                  </Link>
-                  <Link href="/signup">
-                    <Button className="w-full">Get Started</Button>
-                  </Link>
+                  {user ? (
+                     <Link href={dashboardUrl}>
+                        <Button className="w-full cursor-pointer">Dashboard</Button>
+                     </Link>
+                  ) : (
+                    <>
+                      <Link href="/login" className="text-lg font-medium text-muted-foreground hover:text-foreground cursor-pointer">
+                        Log in
+                      </Link>
+                      <Link href="/signup">
+                        <Button className="w-full cursor-pointer">Get Started</Button>
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </SheetContent>

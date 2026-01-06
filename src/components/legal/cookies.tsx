@@ -66,7 +66,7 @@ export function Cookies() {
           us:
         </TypographyP>
         <TypographyList>
-          <li>By email: support@trustlayer.com</li>
+          By email: support@trustlayer.com
         </TypographyList>
       </div>
     </div>

@@ -13,7 +13,7 @@ export type OnboardingState = {
   success?: boolean
 }
 
-export async function saveTalentOnboarding(formData: FormData): Promise<OnboardingState> {
+export async function saveTalentOnboarding(prevState: OnboardingState, formData: FormData): Promise<OnboardingState> {
   const supabase = await createClient()
   
   const { data: { user } } = await supabase.auth.getUser()

@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Loader2 } from 'lucide-react'
 
@@ -35,6 +34,27 @@ export function TalentOnboardingForm() {
   const prevStep = (e: React.MouseEvent) => {
     e.preventDefault()
     setCurrentStep(prev => Math.max(prev - 1, 1))
+  }
+
+  /* Step 2 Logic specific states */
+  const [experience, setExperience] = useState<string>("0")
+  const [isFresher, setIsFresher] = useState<boolean>(true)
+
+  const handleExperienceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value
+    setExperience(val)
+    
+    // Logic: if 0 or blank -> auto check fresher. 
+    // If > 0 -> auto uncheck fresher.
+    if (val === "" || parseFloat(val) === 0) {
+      setIsFresher(true)
+    } else {
+      setIsFresher(false)
+    }
+  }
+
+  const handleFresherChange = (checked: boolean) => {
+    setIsFresher(checked)
   }
 
   return (
@@ -71,11 +91,6 @@ export function TalentOnboardingForm() {
                 <Input id="fullName" name="fullName" placeholder="John Doe" required />
                 {state.errors?.fullName && <p className="text-sm text-red-500">{state.errors.fullName}</p>}
               </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="bio">Bio (Optional)</Label>
-                <Textarea id="bio" name="bio" placeholder="Tell us a bit about yourself..." />
-              </div>
             </div>
 
             {/* Step 2: Experience */}
@@ -93,44 +108,22 @@ export function TalentOnboardingForm() {
                   type="number" 
                   min="0" 
                   step="0.5"
-                  defaultValue="0"
+                  value={experience}
+                  onChange={handleExperienceChange}
                 />
               </div>
 
               <div className="flex items-center space-x-2">
-                <input 
+                <Input
                   type="checkbox" 
                   id="isFresher" 
                   name="isFresher" 
-                  className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                  checked={isFresher}
+                  onChange={(e) => handleFresherChange(e.target.checked)}
+                  disabled={parseFloat(experience) > 0}
+                  className="h-4 w-4"
                 />
-                <Label htmlFor="isFresher">I am a fresher / looking for first job</Label>
-              </div>
-
-              {/* Skills Input could go here or separate. Simple text for now or hidden logic */}
-              {/* For now let's just add a simple textarea for skills split by comma to parse on server if we wanted more complex UI */}
-              <div className="space-y-2">
-                 <Label htmlFor="skills-input">Skills (comma separated)</Label>
-                 {/* This hack works for FormData getAll if we parse it, but for now server action expects array. 
-                     Let's use a hidden input logic or just multiple name="skills" inputs if we had a dynamic list.
-                     For simplicity, I will assume server parses or we send one string and split there. 
-                     Wait, server action `formData.getAll('skills')` implies multiple inputs with name 'skills'.
-                     Let's add a simple multi-input simulation or just text for MVP.
-                 */}
-                 {/* Changing server schema to accept comma separated string might be easier but I stuck to array.
-                     Let me add a hidden Input for skills and handle it via JS if I had time, 
-                     but for MVP let's just ask user to type and we auto-convert in action? 
-                     No, action expects `getAll`. 
-                     Let's just loop a few inputs or just provide a few slots?
-                     Actually, standard FormData with multiple inputs of same name works.
-                 */}
-                 <div className="grid grid-cols-2 gap-2">
-                    <Input name="skills" placeholder="Skill 1 (e.g. React)" />
-                    <Input name="skills" placeholder="Skill 2 (e.g. Node.js)" />
-                    <Input name="skills" placeholder="Skill 3 (e.g. TypeScript)" />
-                    <Input name="skills" placeholder="Skill 4 (e.g. SQL)" />
-                 </div>
-                 <p className="text-xs text-muted-foreground">Add up to 4 core skills.</p>
+                <Label htmlFor="isFresher" className="text-sm font-normal">I am a fresher / looking for first job</Label>
               </div>
             </div>
 
@@ -178,7 +171,6 @@ export function TalentOnboardingForm() {
                 </Button>
               )}
             </CardFooter>
-            
           </form>
         </CardContent>
       </Card>
