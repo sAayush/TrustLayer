@@ -9,4 +9,14 @@ export const onboardingSchema = z.object({
   portfolioUrl: z.url("Invalid URL").optional().or(z.literal('')),
   skills: z.array(z.string()).optional(),
   isFresher: z.boolean().optional(),
+  otherLinks: z.string().optional().transform((str) => {
+    if (!str) return [];
+    try {
+      const parsed = JSON.parse(str);
+      if (!Array.isArray(parsed)) return [];
+      return parsed.slice(0, 2);
+    } catch {
+      return [];
+    }
+  }),
 })

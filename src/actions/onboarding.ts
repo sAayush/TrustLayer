@@ -31,6 +31,7 @@ export async function saveTalentOnboarding(prevState: OnboardingState, formData:
     portfolioUrl: formData.get('portfolioUrl'),
     isFresher: formData.get('isFresher') === 'on',
     skills: formData.getAll('skills'),
+    otherLinks: formData.get('otherLinks'),
   }
 
   const validatedFields = onboardingSchema.safeParse(rawData)
@@ -51,7 +52,8 @@ export async function saveTalentOnboarding(prevState: OnboardingState, formData:
     githubUrl, 
     portfolioUrl, 
     skills, 
-    isFresher } = validatedFields.data
+    isFresher,
+    otherLinks } = validatedFields.data
 
   try {
     // 1. Update Profile (Basic Info)
@@ -69,7 +71,8 @@ export async function saveTalentOnboarding(prevState: OnboardingState, formData:
       github_url: githubUrl || null,
       portfolio_url: portfolioUrl || null,
       is_fresher: isFresher,
-      other_skills: skills || [], // Storing skills in other_skills for now as simple array
+      other_skills: skills || [],
+      other_links: otherLinks,
     })
 
     if (talentError) throw new Error('Failed to update talent profile: ' + talentError.message)

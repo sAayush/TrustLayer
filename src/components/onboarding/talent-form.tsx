@@ -20,12 +20,6 @@ export function TalentOnboardingForm() {
   const [currentStep, setCurrentStep] = useState(1)
   const [state, action, isPending] = useActionState(saveTalentOnboarding, { message: '', success: false })
 
-  // We can manage field values in state to persist them between steps if we wanted to only submit at the end.
-  // Since we are using FormData and hidden inputs or submitting all at once, we need to make sure all data is present when submitting.
-  // However, simpler approach for "Steps":
-  // We can treat this as a single form where we toggle visibility of fields based on step.
-  // This ensures all inputs are in the DOM when we submit.
-
   const nextStep = (e: React.MouseEvent) => {
     e.preventDefault()
     setCurrentStep(prev => Math.min(prev + 1, steps.length))
@@ -55,6 +49,25 @@ export function TalentOnboardingForm() {
 
   const handleFresherChange = (checked: boolean) => {
     setIsFresher(checked)
+  }
+
+  /* Step 3 Logic: Additional Links */
+  const [additionalLinks, setAdditionalLinks] = useState<{label: string, url: string}[]>([])
+
+  const addLink = () => {
+    if (additionalLinks.length < 2) {
+      setAdditionalLinks([...additionalLinks, { label: "", url: "" }])
+    }
+  }
+
+  const removeLink = (index: number) => {
+    setAdditionalLinks(additionalLinks.filter((_, i) => i !== index))
+  }
+
+  const updateLink = (index: number, field: 'label' | 'url', value: string) => {
+    const newLinks = [...additionalLinks]
+    newLinks[index][field] = value
+    setAdditionalLinks(newLinks)
   }
 
   return (
@@ -97,7 +110,7 @@ export function TalentOnboardingForm() {
             <div className={currentStep === 2 ? 'block space-y-4' : 'hidden'}>
               <div className="space-y-2">
                 <Label htmlFor="currentCompany">Current Company (Optional)</Label>
-                <Input id="currentCompany" name="currentCompany" placeholder="Acme Inc." />
+                <Input id="currentCompany" name="currentCompany" placeholder="Company Name" />
               </div>
 
               <div className="space-y-2">
@@ -141,6 +154,41 @@ export function TalentOnboardingForm() {
                 <Label htmlFor="portfolioUrl">Portfolio URL</Label>
                 <Input id="portfolioUrl" name="portfolioUrl" placeholder="https://myportfolio.com" type="url" />
               </div>
+
+               {/* Additional Links */}
+               {additionalLinks.map((link, index) => (
+                <div key={index} className="grid grid-cols-2 gap-2 items-end border p-2 rounded-md">
+                   <div className="space-y-1">
+                      <Label className="text-xs">Label</Label>
+                      <Input 
+                        placeholder="Blog / Twitter / Etc" 
+                        value={link.label} 
+                        onChange={(e) => updateLink(index, 'label', e.target.value)} 
+                      />
+                   </div>
+                   <div className="space-y-1">
+                      <Label className="text-xs">URL</Label>
+                      <Input 
+                        placeholder="https://..." 
+                        value={link.url} 
+                        type="url"
+                        onChange={(e) => updateLink(index, 'url', e.target.value)} 
+                      />
+                   </div>
+                   <div className="col-span-2 text-right">
+                       <Button type="button" variant="ghost" size="sm" onClick={() => removeLink(index)} className="text-red-500 h-6">Remove</Button>
+                   </div>
+                </div>
+              ))}
+
+              {additionalLinks.length < 2 && (
+                <Button type="button" variant="outline" size="sm" onClick={addLink} className="mt-2 w-full cursor-pointer border-dashed">
+                  + Add Another Link
+                </Button>
+              )}
+
+              <input type="hidden" name="otherLinks" value={JSON.stringify(additionalLinks)} />
+
             </div>
 
             {/* Navigation Buttons */}
@@ -148,18 +196,18 @@ export function TalentOnboardingForm() {
               <Button 
                 variant="outline" 
                 onClick={prevStep} 
-                className={currentStep === 1 ? 'invisible' : ''}
+                className={currentStep === 1 ? 'invisible cursor-not-allowed' : 'cursor-pointer'}
                 disabled={isPending}
               >
                 Previous
               </Button>
 
               {currentStep < steps.length ? (
-                <Button onClick={nextStep}>
+                <Button onClick={nextStep} className='cursor-pointer'>
                   Next
                 </Button>
               ) : (
-                <Button type="submit" disabled={isPending}>
+                <Button type="submit" disabled={isPending} className='cursor-pointer'>
                   {isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
