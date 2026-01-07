@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import { TypographyH1, TypographyP } from "@/components/ui/typography"
 import { getAuthRedirectPath } from "@/utils/auth-redirect"
+import { getAllSkills } from "@/data/skills"
 
 export default async function OnboardingPage() {
   const supabase = await createClient()
@@ -16,6 +17,9 @@ export default async function OnboardingPage() {
     redirect(targetPath)
   }
 
+  // Fetch skills
+  const { data: skills } = await getAllSkills(supabase)
+
   return (
     <div className="container mx-auto max-w-4xl py-10">
       <div className="text-center mb-10">
@@ -25,7 +29,7 @@ export default async function OnboardingPage() {
         </TypographyP>
       </div>
       
-      <TalentOnboardingForm />
+      <TalentOnboardingForm skills={skills || []} />
     </div>
   )
 }

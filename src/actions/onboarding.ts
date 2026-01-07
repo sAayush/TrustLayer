@@ -3,6 +3,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { updateProfile } from '@/data/profiles'
 import { updateTalentProfile } from '@/data/talent_profiles'
+import { updateTalentSkills } from '@/data/talent_skills'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { onboardingSchema } from '@/schemas/profile'
@@ -30,7 +31,8 @@ export async function saveTalentOnboarding(prevState: OnboardingState, formData:
     githubUrl: formData.get('githubUrl'),
     portfolioUrl: formData.get('portfolioUrl'),
     isFresher: formData.get('isFresher') === 'on',
-    skills: formData.getAll('skills'),
+    selectedSkills: formData.getAll('selectedSkills'),
+    manualSkills: formData.getAll('manualSkills'),
     otherLinks: formData.get('otherLinks'),
   }
 
@@ -51,9 +53,10 @@ export async function saveTalentOnboarding(prevState: OnboardingState, formData:
     linkedinUrl, 
     githubUrl, 
     portfolioUrl, 
-    skills, 
     isFresher,
-    otherLinks } = validatedFields.data
+    otherLinks,
+    selectedSkills,
+    manualSkills } = validatedFields.data
 
   try {
     // 1. Update Profile (Basic Info)
@@ -71,11 +74,16 @@ export async function saveTalentOnboarding(prevState: OnboardingState, formData:
       github_url: githubUrl || null,
       portfolio_url: portfolioUrl || null,
       is_fresher: isFresher,
-      other_skills: skills || [],
+      other_skills: manualSkills || [], 
       other_links: otherLinks,
     })
 
     if (talentError) throw new Error('Failed to update talent profile: ' + talentError.message)
+
+    // 3. Update Talent Skills (Selected Skills)
+    const { error: skillsError } = await updateTalentSkills(supabase, user.id, selectedSkills)
+    
+    if (skillsError) throw new Error('Failed to update skills: ' + skillsError.message)
 
   } catch (error) {
     console.error('Onboarding Error:', error)

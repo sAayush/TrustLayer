@@ -13,10 +13,15 @@ import { Loader2 } from 'lucide-react'
 const steps = [
   { id: 1, label: "Personal Info" },
   { id: 2, label: "Experience" },
-  { id: 3, label: "Socials" }
+  { id: 3, label: "Skills" },
+  { id: 4, label: "Socials" }
 ]
 
-export function TalentOnboardingForm() {
+interface TalentOnboardingFormProps {
+  skills: { id: string; name: string }[]
+}
+
+export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
   const [currentStep, setCurrentStep] = useState(1)
   const [state, action, isPending] = useActionState(saveTalentOnboarding, { message: '', success: false })
 
@@ -51,7 +56,35 @@ export function TalentOnboardingForm() {
     setIsFresher(checked)
   }
 
-  /* Step 3 Logic: Additional Links */
+  /* Step 3 Logic: Skills */
+  const [selectedSkillIds, setSelectedSkillIds] = useState<string[]>([])
+  const [manualSkills, setManualSkills] = useState<string[]>([])
+  const [skillSearch, setSkillSearch] = useState("")
+  const [manualSkillInput, setManualSkillInput] = useState("")
+
+  const toggleSkill = (id: string) => {
+    if (selectedSkillIds.includes(id)) {
+      setSelectedSkillIds(prev => prev.filter(sid => sid !== id))
+    } else {
+      if (selectedSkillIds.length + manualSkills.length >= 15) return 
+      setSelectedSkillIds(prev => [...prev, id])
+    }
+  }
+
+  const addManualSkill = () => {
+    const val = manualSkillInput.trim()
+    if (!val) return
+    if (selectedSkillIds.length + manualSkills.length >= 15) return
+    if (manualSkills.includes(val)) return 
+    setManualSkills(prev => [...prev, val])
+    setManualSkillInput("")
+  }
+
+  const removeManualSkill = (skill: string) => {
+     setManualSkills(prev => prev.filter(s => s !== skill))
+  }
+
+  /* Step 4 Logic: Additional Links */
   const [additionalLinks, setAdditionalLinks] = useState<{label: string, url: string}[]>([])
 
   const addLink = () => {
@@ -140,8 +173,99 @@ export function TalentOnboardingForm() {
               </div>
             </div>
 
-            {/* Step 3: Socials */}
+            {/* Step 3: Skills */}
             <div className={currentStep === 3 ? 'block space-y-4' : 'hidden'}>
+              <div className="space-y-4">
+                <div>
+                    <Label>Selected Skills ({selectedSkillIds.length + manualSkills.length}/15)</Label>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                        {selectedSkillIds.map(id => {
+                            const skill = skills.find(s => s.id === id)
+                            return (
+                                <div key={id} className="bg-primary/10 text-primary px-2 py-1 rounded-md text-sm flex items-center gap-1">
+                                    {skill?.name}
+                                    <button type="button" onClick={() => toggleSkill(id)} className="hover:text-red-500 font-bold ml-1">×</button>
+                                </div>
+                            )
+                        })}
+                        {manualSkills.map(skill => (
+                            <div key={skill} className="bg-secondary text-secondary-foreground px-2 py-1 rounded-md text-sm flex items-center gap-1 border">
+                                {skill}
+                                <button type="button" onClick={() => removeManualSkill(skill)} className="hover:text-red-500 font-bold ml-1">×</button>
+                            </div>
+                        ))}
+                        {(selectedSkillIds.length === 0 && manualSkills.length === 0) && (
+                            <p className="text-sm text-muted-foreground italic">No skills selected.</p>
+                        )}
+                    </div>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="skillSearch">Add from Library</Label>
+                  <Input 
+                    id="skillSearch" 
+                    placeholder="Search skills..." 
+                    value={skillSearch}
+                    onChange={(e) => setSkillSearch(e.target.value)}
+                  />
+                  <div className="border rounded-md max-h-48 overflow-y-auto p-2 space-y-1">
+                     {skills
+                        .filter(s => s.name.toLowerCase().includes(skillSearch.toLowerCase()))
+                        .map(skill => (
+                            <div 
+                                key={skill.id} 
+                                className={
+                                  `px-2 py-1.5 text-sm rounded cursor-pointer flex justify-between 
+                                  items-center ${selectedSkillIds.includes(skill.id) ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'}`
+                                }
+                                onClick={() => toggleSkill(skill.id)}
+                            >
+                                {skill.name}
+                                {selectedSkillIds.includes(skill.id) && <span>✓</span>}
+                            </div>
+                        ))}
+                     {skills.filter(s => s.name.toLowerCase().includes(skillSearch.toLowerCase())).length === 0 && (
+                         <p className="text-sm text-center text-muted-foreground py-2">No matching skills found.</p>
+                     )}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                   <Label htmlFor="manualSkill">Add Custom Skill</Label>
+                   <div className="flex gap-2">
+                      <Input 
+                        id="manualSkill" 
+                        placeholder="e.g. ExoticLang v2" 
+                        value={manualSkillInput}
+                        onChange={(e) => setManualSkillInput(e.target.value)}
+                        onKeyDown={(e) => { if(e.key === 'Enter') { e.preventDefault(); addManualSkill(); } }}
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={addManualSkill}
+                        disabled={!manualSkillInput.trim() || selectedSkillIds.length + manualSkills.length >= 15}
+                        
+                      >
+                        Add
+                      </Button>
+                   </div>
+                   <p className="text-xs text-muted-foreground">If you can&apos;t find a skill in the library, add it here.</p>
+                </div>
+
+                {/* Hidden Inputs for Submission */}
+                {selectedSkillIds.map(id => (
+                    <input key={id} type="hidden" name="selectedSkills" value={id} />
+                ))}
+                {manualSkills.map(skill => (
+                    <input key={skill} type="hidden" name="manualSkills" value={skill} />
+                ))}
+
+              </div>
+            </div>
+
+            {/* Step 4: Socials */}
+            <div className={currentStep === 4 ? 'block space-y-4' : 'hidden'}>
               <div className="space-y-2">
                 <Label htmlFor="linkedinUrl">LinkedIn URL</Label>
                 <Input id="linkedinUrl" name="linkedinUrl" placeholder="https://linkedin.com/in/..." type="url" />
@@ -176,7 +300,7 @@ export function TalentOnboardingForm() {
                       />
                    </div>
                    <div className="col-span-2 text-right">
-                       <Button type="button" variant="ghost" size="sm" onClick={() => removeLink(index)} className="text-red-500 h-6">Remove</Button>
+                       <Button type="button" variant="ghost" size="sm" onClick={() => removeLink(index)} className="text-red-500 h-6 cursor-pointer">Remove</Button>
                    </div>
                 </div>
               ))}

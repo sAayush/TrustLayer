@@ -2,8 +2,11 @@ import { createClient } from '@/utils/supabase/server'
 import { getProfileById } from '@/data/profiles'
 import { getTalentProfileById } from '@/data/talent_profiles'
 
-export async function getAuthRedirectPath(): Promise<string> {
-  const supabase = await createClient()
+import { SupabaseClient } from '@supabase/supabase-js'
+import { Database } from '@/utils/types/database'
+
+export async function getAuthRedirectPath(supabaseClient?: SupabaseClient<Database>): Promise<string> {
+  const supabase = supabaseClient ?? await createClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return '/login'
