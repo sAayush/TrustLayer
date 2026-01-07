@@ -8,16 +8,12 @@ import { getAllSkills } from "@/data/skills"
 export default async function OnboardingPage() {
   const supabase = await createClient()
   
-  // Use centralized redirect logic
   const targetPath = await getAuthRedirectPath(supabase)
   
-  // If the logic says we should be somewhere else, redirect.
-  // Note: If targetPath IS '/talent/onboarding', we stay here.
   if (targetPath !== '/talent/onboarding') {
     redirect(targetPath)
   }
 
-  // Fetch skills
   const { data: skills } = await getAllSkills(supabase)
 
   return (
