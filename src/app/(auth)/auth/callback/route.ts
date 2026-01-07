@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
-
 import { getAuthRedirectPath } from '@/utils/auth-redirect'
 
 export async function GET(request: Request) {
@@ -13,9 +12,10 @@ export async function GET(request: Request) {
       const redirectPath = await getAuthRedirectPath(supabase)
       
       const forwardedHost = request.headers.get('x-forwarded-host')
+      const forwardedProto = request.headers.get('x-forwarded-proto')
       
       if (forwardedHost) {
-        return NextResponse.redirect(`https://${forwardedHost}${redirectPath}`)
+        return NextResponse.redirect(`${forwardedProto || 'https'}://${forwardedHost}${redirectPath}`)
       } else {
         return NextResponse.redirect(`${origin}${redirectPath}`)
       }
