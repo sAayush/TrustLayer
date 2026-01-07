@@ -203,12 +203,22 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
                 <div className="space-y-2">
                   <Label htmlFor="skillSearch">Add from Library</Label>
                   <Input 
+                    type="text"
                     id="skillSearch" 
                     placeholder="Search skills..." 
                     value={skillSearch}
                     onChange={(e) => setSkillSearch(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const matchingSkills = skills.filter(s => s.name.toLowerCase().includes(skillSearch.toLowerCase()));
+                        if (matchingSkills.length > 0) {
+                          toggleSkill(matchingSkills[0].id);
+                        }
+                      }
+                    }}
                   />
-                  <div className="border rounded-md max-h-48 overflow-y-auto p-2 space-y-1">
+                  <div className="border rounded-md max-h-32 overflow-y-auto p-2 space-y-1">
                      {skills
                         .filter(s => s.name.toLowerCase().includes(skillSearch.toLowerCase()))
                         .map(skill => (
@@ -231,7 +241,7 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
                 </div>
 
                 <div className="space-y-2">
-                   <Label htmlFor="manualSkill">Add Custom Skill</Label>
+                   <Label htmlFor="manualSkill">Add Additional Skill</Label>
                    <div className="flex gap-2">
                       <Input 
                         id="manualSkill" 
@@ -245,7 +255,7 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
                         variant="outline"
                         onClick={addManualSkill}
                         disabled={!manualSkillInput.trim() || selectedSkillIds.length + manualSkills.length >= 15}
-                        
+                        className="cursor-pointer"
                       >
                         Add
                       </Button>
@@ -320,6 +330,7 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
               <Button 
                 variant="outline" 
                 onClick={prevStep} 
+                type="button"
                 className={currentStep === 1 ? 'invisible cursor-not-allowed' : 'cursor-pointer'}
                 disabled={isPending}
               >
@@ -327,7 +338,7 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
               </Button>
 
               {currentStep < steps.length ? (
-                <Button onClick={nextStep} className='cursor-pointer'>
+                <Button onClick={nextStep} type="button" className='cursor-pointer'>
                   Next
                 </Button>
               ) : (
