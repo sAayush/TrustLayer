@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -14,9 +14,10 @@ import {
   SidebarProvider,
   SidebarInset,
 } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
 import { Route } from "@/app/(protected)/talent/sidebarRoutes";
 import * as Icons from "lucide-react";
+import {createClient} from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 export default function SidebarClient({
   children,
@@ -27,6 +28,14 @@ export default function SidebarClient({
 }) {
   const pathname = usePathname();
   const activePath = pathname ?? "/talent/dashboard";
+
+  const supabase = createClient();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.refresh();
+  };
 
   return (
     <>
@@ -93,7 +102,7 @@ export default function SidebarClient({
                 <SidebarMenuButton
                   tooltip="Log out"
                   onClick={() => {
-                    // console.log("Logging out...");
+                    handleLogout();
                   }}
                   className="text-destructive hover:bg-destructive/10 hover:text-destructive"
                 >
