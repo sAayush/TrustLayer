@@ -24,7 +24,8 @@ export async function getAuthRedirectPath(supabaseClient?: SupabaseClient<Databa
   if (profile.role === 'talent') {
     const { data: talentProfile } = await getTalentProfileById(supabase, user.id)
 
-    if (!talentProfile || !talentProfile.linkedin_url) {
+    // Check if talent profile exists and has been populated (is_fresher is always set during onboarding)
+    if (!talentProfile || talentProfile.is_fresher === null) {
       return '/talent/onboarding'
     }
 

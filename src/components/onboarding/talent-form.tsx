@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useActionState, useState, useEffect } from 'react'
 import { saveTalentOnboarding } from '@/actions/onboarding'
 import { StepIndicator } from './step-indicator'
 import { Button } from '@/components/ui/button'
@@ -17,6 +17,19 @@ const steps = [
   { id: 4, label: "Socials" }
 ]
 
+// Maps field names to their respective step numbers
+const FIELD_TO_STEP_MAP: Record<string, number> = {
+  fullName: 1,
+  currentCompany: 2,
+  totalExperienceYears: 2,
+  isFresher: 2,
+  selectedSkills: 3,
+  manualSkills: 3,
+  linkedinUrl: 4,
+  githubUrl: 4,
+  portfolioUrl: 4,
+}
+
 interface TalentOnboardingFormProps {
   skills: { id: string; name: string }[]
 }
@@ -24,6 +37,23 @@ interface TalentOnboardingFormProps {
 export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
   const [currentStep, setCurrentStep] = useState(1)
   const [state, action, isPending] = useActionState(saveTalentOnboarding, { message: '', success: false })
+  const [localErrors, setLocalErrors] = useState<Record<string, string[]> | undefined>(undefined)
+
+  // Sync server errors to local state when they arrive
+  useEffect(() => {
+    if (state.errors) {
+      setLocalErrors(state.errors)
+    }
+  }, [state.errors])
+
+  const clearError = (field: string) => {
+    setLocalErrors(prev => {
+      if (!prev || !prev[field]) return prev
+      const newErrors = { ...prev }
+      delete newErrors[field]
+      return newErrors
+    })
+  }
 
   const nextStep = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -42,9 +72,7 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
   const handleExperienceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value
     setExperience(val)
-    
-    // Logic: if 0 or blank -> auto check fresher. 
-    // If > 0 -> auto uncheck fresher.
+    if (localErrors?.totalExperienceYears) clearError('totalExperienceYears')
     if (val === "" || parseFloat(val) === 0) {
       setIsFresher(true)
     } else {
@@ -63,6 +91,7 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
   const [manualSkillInput, setManualSkillInput] = useState("")
 
   const toggleSkill = (id: string) => {
+    if (localErrors?.selectedSkills) clearError('selectedSkills')
     if (selectedSkillIds.includes(id)) {
       setSelectedSkillIds(prev => prev.filter(sid => sid !== id))
     } else {
@@ -103,6 +132,13 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
     setAdditionalLinks(newLinks)
   }
 
+  const offScreenErrors = localErrors && Object.keys(localErrors).length > 0
+    ? Object.entries(localErrors).filter(([field]) => {
+         const step = FIELD_TO_STEP_MAP[field]
+         return step && step !== currentStep
+      })
+    : []
+
   return (
     <div className="max-w-2xl mx-auto py-10">
       <StepIndicator steps={steps} currentStep={currentStep} />
@@ -123,10 +159,38 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
         <CardContent>
           <form id="onboarding-form" action={action} className="space-y-6">
             
-            {state.message && !state.success && (
-              <Alert variant="destructive" className="mb-4">
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>{state.message}</AlertDescription>
+            {/* Error Display */}
+            {offScreenErrors.length > 0 && (
+              <Alert variant="destructive" className="mb-6">
+                <AlertDescription className="space-y-3">
+                  <div className="text-sm space-y-2 max-h-40 overflow-y-auto pl-2">
+                    {offScreenErrors.map(([field, messages]) => {
+                      const step = FIELD_TO_STEP_MAP[field]
+                      return (
+                        <div key={field} className="flex items-center justify-between gap-4 group">
+                          <div className="space-y-0.5">
+                            <span className="font-semibold capitalize text-destructive-foreground/80">
+                              {field.replace(/([A-Z])/g, ' $1').trim()}:
+                            </span>
+                            <span className="ml-1 text-muted-foreground">
+                              {messages?.[0]}
+                            </span>
+                          </div>
+                          
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            onClick={() => setCurrentStep(step)}
+                            className="h-6 text-xs bg-background/50 hover:bg-background border-destructive/30 hover:text-destructive whitespace-nowrap cursor-pointer"
+                            type="button"
+                          >
+                            Go to Step {step}
+                          </Button>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </AlertDescription>
               </Alert>
             )}
 
@@ -134,8 +198,13 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
             <div className={currentStep === 1 ? 'block space-y-4' : 'hidden'}>
               <div className="space-y-2">
                 <Label htmlFor="fullName">Full Name</Label>
-                <Input id="fullName" name="fullName" placeholder="John Doe" required />
-                {state.errors?.fullName && <p className="text-sm text-red-500">{state.errors.fullName}</p>}
+                <Input 
+                  id="fullName" 
+                  name="fullName" 
+                  placeholder="John Doe" 
+                  onChange={() => clearError('fullName')}
+                />
+                {localErrors?.fullName && <p className="text-sm text-red-500">{localErrors.fullName}</p>}
               </div>
             </div>
 
@@ -157,6 +226,7 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
                   value={experience}
                   onChange={handleExperienceChange}
                 />
+                {localErrors?.totalExperienceYears && <p className="text-sm text-red-500">{localErrors.totalExperienceYears}</p>}
               </div>
 
               <div className="flex items-center space-x-2">
@@ -197,6 +267,9 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
                         {(selectedSkillIds.length === 0 && manualSkills.length === 0) && (
                             <p className="text-sm text-muted-foreground italic">No skills selected.</p>
                         )}
+                 {!(selectedSkillIds.length === 0 && manualSkills.length === 0) && localErrors?.selectedSkills && (
+                    <p className="text-sm text-red-500 mt-1">{localErrors.selectedSkills}</p>
+                 )}
                     </div>
                 </div>
 
@@ -278,15 +351,18 @@ export function TalentOnboardingForm({ skills }: TalentOnboardingFormProps) {
             <div className={currentStep === 4 ? 'block space-y-4' : 'hidden'}>
               <div className="space-y-2">
                 <Label htmlFor="linkedinUrl">LinkedIn URL</Label>
-                <Input id="linkedinUrl" name="linkedinUrl" placeholder="https://linkedin.com/in/..." type="url" />
+                <Input id="linkedinUrl" name="linkedinUrl" placeholder="https://linkedin.com/in/..." type="url" onChange={() => clearError('linkedinUrl')} />
+                {localErrors?.linkedinUrl && <p className="text-sm text-red-500">{localErrors.linkedinUrl}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="githubUrl">GitHub URL</Label>
-                <Input id="githubUrl" name="githubUrl" placeholder="https://github.com/..." type="url" />
+                <Input id="githubUrl" name="githubUrl" placeholder="https://github.com/..." type="url" onChange={() => clearError('githubUrl')} />
+                {localErrors?.githubUrl && <p className="text-sm text-red-500">{localErrors.githubUrl}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="portfolioUrl">Portfolio URL</Label>
-                <Input id="portfolioUrl" name="portfolioUrl" placeholder="https://myportfolio.com" type="url" />
+                <Input id="portfolioUrl" name="portfolioUrl" placeholder="https://myportfolio.com" type="url" onChange={() => clearError('portfolioUrl')} />
+                {localErrors?.portfolioUrl && <p className="text-sm text-red-500">{localErrors.portfolioUrl}</p>}
               </div>
 
                {/* Additional Links */}
