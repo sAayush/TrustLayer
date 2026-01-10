@@ -67,7 +67,7 @@ export function OTPForm({ className, ...props }: React.ComponentProps<"div">) {
             </FieldLabel>
             <InputOTP
               maxLength={6}
-              name="token"
+              name="code"
               id="otp"
               required
               containerClassName="gap-4"

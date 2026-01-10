@@ -49,16 +49,17 @@ export function PublicNav({ user, dashboardUrl = '/dashboard' }: PublicNavProps)
               <NavigationMenuList>
                 {navItems.map((item) => (
                   <NavigationMenuItem key={item.href}>
-                    <Link href={item.href} passHref>
-                      <NavigationMenuLink
+                    <NavigationMenuLink asChild>
+                      <Link 
+                        href={item.href}
                         className={cn(
                           navigationMenuTriggerStyle(),
                           isActive(item.href) && "bg-accent text-accent-foreground"
                         )}
                       >
                         {item.name}
-                      </NavigationMenuLink>
-                    </Link>
+                      </Link>
+                    </NavigationMenuLink>
                   </NavigationMenuItem>
                 ))}
               </NavigationMenuList>

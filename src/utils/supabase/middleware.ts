@@ -51,6 +51,7 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname === '/' ||                 // Landing Page
     request.nextUrl.pathname.startsWith('/login') ||    // Login Page
     request.nextUrl.pathname.startsWith('/signup') ||   // Signup Page
+    request.nextUrl.pathname.startsWith('/otp') ||      // OTP Verification Page
     request.nextUrl.pathname.startsWith('/auth') ||
     // Landing stuff
     request.nextUrl.pathname.startsWith('/about') ||

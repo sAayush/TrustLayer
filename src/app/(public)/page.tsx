@@ -104,11 +104,11 @@ export default function Home() {
           </TypographySmall>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
              {/* Placeholders for logos - purely textual for now to keep it clean if no images available */}
-             {["Testamonials", "Testamonials", "Testamonials", "Testamonials", "Testamonials"].map((name) => (
-               <div key={name} className="text-xl md:text-2xl font-bold font-mono text-foreground/40 hover:text-foreground transition-colors cursor-default">
-                 {name}
-               </div>
-             ))}
+             {["Testimonials", "Testimonials", "Testimonials", "Testimonials", "Testimonials"].map((name, i) => (
+              <div key={`${name}-${i}`} className="relative flex h-full w-64 items-center justify-center border-r px-4 md:w-80">
+                <span className="text-sm font-medium text-muted-foreground">{name}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
