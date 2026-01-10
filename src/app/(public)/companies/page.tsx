@@ -15,7 +15,7 @@ export default function CompaniesPage() {
     <div className="flex flex-col min-h-screen">
        {/* Hero */}
        <section className="bg-gradient-to-b from-purple-50/50 to-background dark:from-purple-950/20 py-20 md:py-32 border-b">
-        <div className="container px-4 text-center max-w-4xl mx-auto space-y-6">
+        <div className="container m-auto px-4 text-center max-w-4xl mx-auto space-y-6">
            <TypographyH1 className="text-4xl md:text-6xl">
             Stop Wasting Time on Interviews.<br/>
             <span className="text-purple-600 dark:text-purple-400">Hire Pre-Vetted Talent Today.</span>
@@ -37,7 +37,7 @@ export default function CompaniesPage() {
 
       {/* Benefits Grid */}
       <section className="py-24">
-        <div className="container px-4">
+        <div className="container m-auto px-4">
              <div className="grid md:grid-cols-3 gap-12">
                 <div className="space-y-4">
                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-4">
@@ -72,7 +72,7 @@ export default function CompaniesPage() {
 
       {/* Deep Dive Vetting */}
       <section className="py-24 bg-muted/30 border-y">
-        <div className="container px-4">
+        <div className="container m-auto px-4">
              <div className="mb-16 text-center">
                  <TypographyH2 className="text-3xl border-none mb-4">How We Vet Them</TypographyH2>
                  <TypographyMuted>Our 4-step process ensures top 1% quality.</TypographyMuted>
@@ -153,7 +153,7 @@ export default function CompaniesPage() {
 
       {/* Pricing Teaser / Guarantee */}
       <section className="py-24">
-           <div className="container px-4 text-center">
+           <div className="container m-auto px-4 text-center">
                <div className="max-w-3xl mx-auto space-y-8">
                    <TypographyH2 className="text-3xl border-none">Zero Risk Hiring</TypographyH2>
                    <TypographyLead className="text-lg">

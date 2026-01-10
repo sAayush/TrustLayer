@@ -18,7 +18,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 
 export default function ContactPage() {
   return (
-    <div className="container py-12 md:py-24 max-w-5xl mx-auto space-y-12">
+    <div className="container  m-auto py-12 md:py-24 max-w-5xl mx-auto space-y-12">
       <div className="text-center space-y-4">
         <TypographyH1>Contact Us</TypographyH1>
         <TypographyLead>

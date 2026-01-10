@@ -98,7 +98,7 @@ export default function Home() {
 
       {/* Social Proof / Stats */}
       <section className="py-20 border-t bg-muted/20">
-        <div className="container px-4 text-center">
+        <div className="container m-auto px-4 text-center">
           <TypographySmall className="text-muted-foreground uppercase tracking-wider mb-8 block">
             Trusted by forward-thinking companies
           </TypographySmall>
@@ -115,7 +115,7 @@ export default function Home() {
 
       {/* Vetting Process High Level */}
       <section className="py-24">
-        <div className="container px-4">
+        <div className="container m-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <TypographyH2 className="text-3xl md:text-5xl border-none mb-4">
               Quality over Quantity
@@ -168,7 +168,7 @@ export default function Home() {
 
       {/* Featured Talent Teaser */}
       <section className="py-24 bg-muted/30">
-        <div className="container px-4 text-center">
+        <div className="container m-auto px-4 text-center">
             <TypographyH2 className="text-3xl border-none mb-8">Top Talent Ready to Work</TypographyH2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
                 {/* Mock Developer Cards */}
