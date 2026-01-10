@@ -13,17 +13,20 @@ export default function VettingPage() {
     },
     {
       title: "2. Async Code Challenge",
-      description: "Candidates solve real-world coding problems in an asynchronous environment. We test for code quality, efficiency, and problem-solving skills.",
+      description: "Candidates solve real-world coding problems in an asynchronous environment. " +
+      "We test for code quality, efficiency, and problem-solving skills.",
       icon: <Code2 className="h-10 w-10 text-primary" />,
     },
     {
       title: "3. Live System Design",
-      description: "Top performers move to a live system design interview with senior engineers. We assess architecture skills, scalability knowledge, and communication.",
+      description: "Top performers move to a live system design interview with senior engineers. " +
+      "We assess architecture skills, scalability knowledge, and communication.",
       icon: <MonitorCheck className="h-10 w-10 text-primary" />,
     },
     {
       title: "4. Soft Skills Assessment",
-      description: "Technical skills aren't enough. We evaluate communication, teamwork, and cultural fit to ensure candidates integrate seamlessly into your team.",
+      description: "Technical skills aren't enough. " +
+      "We evaluate communication, teamwork, and cultural fit to ensure candidates integrate seamlessly into your team.",
       icon: <Users className="h-10 w-10 text-primary" />,
     },
   ];
@@ -72,7 +75,7 @@ export default function VettingPage() {
       <section className="bg-muted/30 rounded-3xl p-8 md:p-12 text-center border space-y-8">
         <TypographyH2>See It In Action</TypographyH2>
         <TypographyP className="max-w-2xl mx-auto">
-          Our platform provides a transparent view of each candidate's test results, code submissions, and interviewer feedback.
+          Our platform provides a transparent view of each candidate&apos;s test results, code submissions, and interviewer feedback.
         </TypographyP>
         
         {/* Placeholder for Screenshot */}

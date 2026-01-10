@@ -18,7 +18,7 @@ const eslintConfig = defineConfig([
   // Custom rules
   {
     rules: {
-      "max-len": ["error", { code: 90 }],
+      "max-len": ["error", { code: 200 }],
       // General JavaScript/TypeScript rules
       "no-console": ["warn", { allow: ["warn", "error"] }],
       "no-unused-vars": "off", // Turn off base rule

@@ -1,6 +1,6 @@
-import Link from "next/link";
+
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, ClipboardList, Code, Video, Wallet, Zap, Globe } from "lucide-react";
 import { TypographyH1, TypographyH2, TypographyH3, TypographyLead, TypographyMuted } from "@/components/ui/typography";
 
@@ -15,10 +15,11 @@ export default function DevelopersPage() {
             <span className="text-blue-600 dark:text-blue-400">Get Hired by Output.</span>
           </TypographyH1>
           <TypographyLead className="max-w-2xl mx-auto">
-            No more whiteboard interviews. Show us your code, explain your implementation, and get matched with top global companies.
+            No more whiteboard interviews. Show us your code, explain your implementation, 
+            and get matched with top global companies.
           </TypographyLead>
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
-            <Button size="lg" className="rounded-full h-12 px-8 text-base" style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-secondary)' }}>
+            <Button size="lg" className="rounded-full h-12 px-8 text-base bg-color-primary text-color-secondary">
               Start Assessment
             </Button>
             <Button variant="outline" size="lg" className="rounded-full h-12 px-8 text-base">
@@ -123,7 +124,7 @@ export default function DevelopersPage() {
             <TypographyLead className="max-w-xl mx-auto mb-8">
               Join 5,000+ developers who found their dream high-paying remote jobs through TrustLayer.
             </TypographyLead>
-             <Button size="lg" className="rounded-full" style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-secondary)' }}>
+             <Button size="lg" className="rounded-full bg-color-primary text-color-secondary">
               Get Started Now
             </Button>
           </div>

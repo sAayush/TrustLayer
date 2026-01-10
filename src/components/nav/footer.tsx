@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { TypographyH3, TypographyMuted, TypographySmall, TypographyP } from "@/components/ui/typography";
+import { TypographyH3, TypographyMuted, TypographySmall } from "@/components/ui/typography";
 
 export function Footer() {
   return (

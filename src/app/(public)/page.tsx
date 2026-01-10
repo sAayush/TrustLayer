@@ -1,8 +1,16 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Code2, Building2, CheckCircle2 } from "lucide-react";
-import { TypographyH1, TypographyH2, TypographyH3, TypographyP, TypographyLead, TypographyLarge, TypographyMuted, TypographySmall } from "@/components/ui/typography";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { 
+  TypographyH1, 
+  TypographyH2, 
+  TypographyH3, 
+  TypographyLead, 
+  TypographyLarge, 
+  TypographyMuted, 
+  TypographySmall,
+} from "@/components/ui/typography";
+import { Card } from "@/components/ui/card";
 
 export default function Home() {
   return (
@@ -10,10 +18,20 @@ export default function Home() {
       {/* Hero Section - Traffic Controller */}
       <section className="grid grid-cols-1 md:grid-cols-2 min-h-[85vh]">
         {/* Developer Side */}
-        <div className="relative group flex flex-col items-center justify-center p-8 md:p-16 text-center border-b md:border-b-0 md:border-r border-border hover:bg-muted/30 transition-colors duration-500">
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent dark:from-blue-950/20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className={
+          "relative group flex flex-col items-center justify-center p-8 md:p-16 text-center " +
+          "border-b md:border-b-0 md:border-r border-border " +
+          "hover:bg-muted/30 transition-colors duration-500"
+        }>
+          <div className={
+            "absolute inset-0 bg-gradient-to-br from-blue-50/50 to-transparent dark:from-blue-950/20 " +
+            "pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          } />
           <div className="relative z-10 max-w-md space-y-6">
-            <div className="mx-auto w-16 h-16 rounded-2xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-400 mb-6">
+            <div className={
+              "mx-auto w-16 h-16 rounded-2xl bg-blue-100 dark:bg-blue-900/50 " +
+              "flex items-center justify-center text-blue-600 dark:text-blue-400 mb-6"
+            }>
               <Code2 className="w-8 h-8" />
             </div>
             <TypographyH1 className="text-4xl md:text-5xl">
@@ -23,7 +41,10 @@ export default function Home() {
               Skip the endless interviews. Take one test, prove your skills, and get hired by top companies.
             </TypographyLead>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Button asChild size="lg" className="rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5" style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-secondary)' }}>
+              <Button asChild size="lg" className={
+                "rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 " +
+                "bg-color-primary text-color-secondary"
+              }>
                 <Link href="/developers">
                   Get Vetted <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
@@ -42,7 +63,10 @@ export default function Home() {
 
         {/* Company Side */}
         <div className="relative group flex flex-col items-center justify-center p-8 md:p-16 text-center hover:bg-muted/30 transition-colors duration-500">
-          <div className="absolute inset-0 bg-gradient-to-bl from-purple-50/50 to-transparent dark:from-purple-950/20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className={
+            "absolute inset-0 bg-gradient-to-bl from-purple-50/50 to-transparent dark:from-purple-950/20 " +
+            "pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          } />
           <div className="relative z-10 max-w-md space-y-6">
             <div className="mx-auto w-16 h-16 rounded-2xl bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-purple-600 dark:text-purple-400 mb-6">
               <Building2 className="w-8 h-8" />
@@ -54,7 +78,7 @@ export default function Home() {
               Stop sifting through resumes. Hire pre-vetted, top 1% talent ready to ship code from Day 1.
             </TypographyLead>
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-              <Button asChild size="lg" className="rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5" style={{ backgroundColor: 'var(--color-tertiary)', color: 'white' }}>
+              <Button asChild size="lg" className="rounded-full shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 bg-color-tertiary text-white">
                 <Link href="/companies">
                   Find Talent <ArrowRight className="ml-2 w-4 h-4" />
                 </Link>
@@ -102,7 +126,10 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 relative">
-            <div className="hidden md:block absolute top-12 left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-transparent via-border to-transparent z-0" />
+            <div className={
+              "hidden md:block absolute top-12 left-[16%] right-[16%] " +
+            "h-0.5 bg-gradient-to-r from-transparent via-border to-transparent z-0"
+            } />
             
             {[
               {
@@ -124,7 +151,9 @@ export default function Home() {
                 icon: "🎥"
               }
             ].map((item, i) => (
-              <Card key={i} className="relative z-10 flex flex-col items-center text-center p-6 border shadow-sm hover:shadow-md transition-shadow">
+              <Card key={i} className=
+                "relative z-10 flex flex-col items-center text-center p-6 border shadow-sm hover:shadow-md transition-shadow"
+              >
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-xl font-bold mb-4 border border-primary/20">
                   {item.step}
                 </div>

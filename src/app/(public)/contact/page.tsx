@@ -22,7 +22,7 @@ export default function ContactPage() {
       <div className="text-center space-y-4">
         <TypographyH1>Contact Us</TypographyH1>
         <TypographyLead>
-          Have questions? We'd love to hear from you.
+          Have questions? We&apos;d love to hear from you.
         </TypographyLead>
       </div>
 
@@ -73,7 +73,7 @@ export default function ContactPage() {
           <CardHeader>
             <CardTitle>Send us a message</CardTitle>
             <CardDescription>
-              Fill out the form below and we'll get back to you as soon as
+              Fill out the form below and we&apos;ll get back to you as soon as
               possible.
             </CardDescription>
           </CardHeader>

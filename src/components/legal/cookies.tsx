@@ -31,7 +31,7 @@ export function Cookies() {
       <div className="space-y-4">
         <TypographyH2>The Types of Cookies We Use</TypographyH2>
         <TypographyP>
-          Cookies can be "Persistent" or "Session" Cookies. Persistent Cookies
+          Cookies can be &quot;Persistent&quot; or &quot;Session&quot; Cookies. Persistent Cookies
           remain on your personal computer or mobile device when You go offline,
           while Session Cookies are deleted as soon as You close your web
           browser.
@@ -66,7 +66,7 @@ export function Cookies() {
           us:
         </TypographyP>
         <TypographyList>
-          <li>By email: support@trustlayer.com</li>
+          By email: support@trustlayer.com
         </TypographyList>
       </div>
     </div>

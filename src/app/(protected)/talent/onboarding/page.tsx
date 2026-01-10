@@ -3,18 +3,18 @@ import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import { TypographyH1, TypographyP } from "@/components/ui/typography"
 import { getAuthRedirectPath } from "@/utils/auth-redirect"
+import { getAllSkills } from "@/data/skills"
 
 export default async function OnboardingPage() {
   const supabase = await createClient()
   
-  // Use centralized redirect logic
   const targetPath = await getAuthRedirectPath(supabase)
   
-  // If the logic says we should be somewhere else, redirect.
-  // Note: If targetPath IS '/talent/onboarding', we stay here.
   if (targetPath !== '/talent/onboarding') {
     redirect(targetPath)
   }
+
+  const { data: skills } = await getAllSkills(supabase)
 
   return (
     <div className="container mx-auto max-w-4xl py-10">
@@ -25,7 +25,7 @@ export default async function OnboardingPage() {
         </TypographyP>
       </div>
       
-      <TalentOnboardingForm />
+      <TalentOnboardingForm skills={skills || []} />
     </div>
   )
 }

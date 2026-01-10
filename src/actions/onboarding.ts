@@ -3,6 +3,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { updateProfile } from '@/data/profiles'
 import { updateTalentProfile } from '@/data/talent_profiles'
+import { updateTalentSkills } from '@/data/talent_skills'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { onboardingSchema } from '@/schemas/profile'
@@ -30,7 +31,9 @@ export async function saveTalentOnboarding(prevState: OnboardingState, formData:
     githubUrl: formData.get('githubUrl'),
     portfolioUrl: formData.get('portfolioUrl'),
     isFresher: formData.get('isFresher') === 'on',
-    skills: formData.getAll('skills'),
+    selectedSkills: formData.getAll('selectedSkills'),
+    manualSkills: formData.getAll('manualSkills'),
+    otherLinks: formData.get('otherLinks'),
   }
 
   const validatedFields = onboardingSchema.safeParse(rawData)
@@ -43,7 +46,17 @@ export async function saveTalentOnboarding(prevState: OnboardingState, formData:
     }
   }
 
-  const { fullName, currentCompany, totalExperienceYears, linkedinUrl, githubUrl, portfolioUrl, skills, isFresher } = validatedFields.data
+  const {
+    fullName, 
+    currentCompany, 
+    totalExperienceYears, 
+    linkedinUrl, 
+    githubUrl, 
+    portfolioUrl, 
+    isFresher,
+    otherLinks,
+    selectedSkills,
+    manualSkills } = validatedFields.data
 
   try {
     // 1. Update Profile (Basic Info)
@@ -61,14 +74,21 @@ export async function saveTalentOnboarding(prevState: OnboardingState, formData:
       github_url: githubUrl || null,
       portfolio_url: portfolioUrl || null,
       is_fresher: isFresher,
-      other_skills: skills || [], // Storing skills in other_skills for now as simple array
+      other_skills: manualSkills || [], 
+      other_links: otherLinks,
     })
 
     if (talentError) throw new Error('Failed to update talent profile: ' + talentError.message)
 
-  } catch (error: any) {
+    // 3. Update Talent Skills (Selected Skills)
+    const { error: skillsError } = await updateTalentSkills(supabase, user.id, selectedSkills)
+    
+    if (skillsError) throw new Error('Failed to update skills: ' + skillsError.message)
+
+  } catch (error) {
     console.error('Onboarding Error:', error)
-    return { message: error.message || 'Something went wrong', success: false }
+    const message = error instanceof Error ? error.message : 'Something went wrong'
+    return { message, success: false }
   }
 
   revalidatePath('/talent') // Or wherever they go next

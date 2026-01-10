@@ -20,15 +20,18 @@ export function TermsAndConditions() {
       <div className="space-y-4">
         <TypographyH2>Interpretation and Definitions</TypographyH2>
         <TypographyP>
-           The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.
+           The words of which the initial letter is capitalized have meanings defined under the following conditions. 
+           The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.
         </TypographyP>
         
         <TypographyH2>Acknowledgment</TypographyH2>
         <TypographyP>
-            These are the Terms and Conditions governing the use of this Service and the agreement that operates between You and the Company. These Terms and Conditions set out the rights and obligations of all users regarding the use of the Service.
+            These are the Terms and Conditions governing the use of this Service and the agreement that operates between You and the Company. 
+            These Terms and Conditions set out the rights and obligations of all users regarding the use of the Service.
         </TypographyP>
         <TypographyP>
-             Your access to and use of the Service is conditioned on Your acceptance of and compliance with these Terms and Conditions. These Terms and Conditions apply to all visitors, users and others who access or use the Service.
+             Your access to and use of the Service is conditioned on Your acceptance of and compliance with these Terms and Conditions. 
+             These Terms and Conditions apply to all visitors, users and others who access or use the Service.
         </TypographyP>
       </div>
 
