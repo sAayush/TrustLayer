@@ -6,9 +6,11 @@ import { SupabaseClient } from '@supabase/supabase-js'
 import { Database } from '@/utils/types/database'
 
 export async function getAuthRedirectPath(supabaseClient?: SupabaseClient<Database>): Promise<string> {
-  const supabase = supabaseClient ?? await createClient()
+  const supabase = supabaseClient ?? (await createClient())
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
   if (!user) return '/login'
 
   const { data: profile } = await getProfileById(supabase, user.id)
@@ -16,9 +18,7 @@ export async function getAuthRedirectPath(supabaseClient?: SupabaseClient<Databa
   if (!profile) return '/login'
 
   if (!profile.full_name) {
-    return profile.role === 'organization' 
-      ? '/organization/onboarding' 
-      : '/talent/onboarding'
+    return profile.role === 'organization' ? '/organization/onboarding' : '/talent/onboarding'
   }
 
   if (profile.role === 'talent') {
@@ -33,7 +33,7 @@ export async function getAuthRedirectPath(supabaseClient?: SupabaseClient<Databa
   }
 
   if (profile.role === 'organization') {
-     return '/organization/dashboard'
+    return '/organization/dashboard'
   }
 
   return '/'

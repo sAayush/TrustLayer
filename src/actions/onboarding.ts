@@ -7,6 +7,7 @@ import { updateTalentSkills } from '@/data/talent_skills'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { onboardingSchema } from '@/schemas/profile'
+import { getCurrentUser } from '@/data/user'
 
 export type OnboardingState = {
   message: string
@@ -16,8 +17,8 @@ export type OnboardingState = {
 
 export async function saveTalentOnboarding(prevState: OnboardingState, formData: FormData): Promise<OnboardingState> {
   const supabase = await createClient()
-  
-  const { data: { user } } = await supabase.auth.getUser()
+
+  const user = await getCurrentUser()
 
   if (!user) {
     return { message: 'Unauthorized', success: false }
@@ -42,49 +43,47 @@ export async function saveTalentOnboarding(prevState: OnboardingState, formData:
     return {
       message: 'Validation failed',
       errors: validatedFields.error.flatten().fieldErrors,
-      success: false
+      success: false,
     }
   }
 
   const {
-    fullName, 
-    currentCompany, 
-    totalExperienceYears, 
-    linkedinUrl, 
-    githubUrl, 
-    portfolioUrl, 
+    fullName,
+    currentCompany,
+    totalExperienceYears,
+    linkedinUrl,
+    githubUrl,
+    portfolioUrl,
     isFresher,
     otherLinks,
     selectedSkills,
-    manualSkills } = validatedFields.data
+    manualSkills,
+  } = validatedFields.data
 
   try {
-    // 1. Update Profile (Basic Info)
-    const { error: profileError } = await updateProfile(supabase, user.id, {
-      full_name: fullName,
-    })
+    // Run updates in parallel
+    const [profileResult, talentResult, skillsResult] = await Promise.all([
+      // 1. Update Profile (Basic Info)
+      updateProfile(supabase, user.id, {
+        full_name: fullName,
+      }),
+      // 2. Update Talent Profile (Professional Info)
+      updateTalentProfile(supabase, user.id, {
+        current_company: currentCompany || null,
+        total_experience_years: totalExperienceYears,
+        linkedin_url: linkedinUrl || null,
+        github_url: githubUrl || null,
+        portfolio_url: portfolioUrl || null,
+        is_fresher: isFresher,
+        other_skills: manualSkills || [],
+        other_links: otherLinks,
+      }),
+      // 3. Update Talent Skills (Selected Skills)
+      updateTalentSkills(supabase, user.id, selectedSkills),
+    ])
 
-    if (profileError) throw new Error('Failed to update profile: ' + profileError.message)
-
-    // 2. Update Talent Profile (Professional Info)
-    const { error: talentError } = await updateTalentProfile(supabase, user.id, {
-      current_company: currentCompany || null,
-      total_experience_years: totalExperienceYears,
-      linkedin_url: linkedinUrl || null,
-      github_url: githubUrl || null,
-      portfolio_url: portfolioUrl || null,
-      is_fresher: isFresher,
-      other_skills: manualSkills || [], 
-      other_links: otherLinks,
-    })
-
-    if (talentError) throw new Error('Failed to update talent profile: ' + talentError.message)
-
-    // 3. Update Talent Skills (Selected Skills)
-    const { error: skillsError } = await updateTalentSkills(supabase, user.id, selectedSkills)
-    
-    if (skillsError) throw new Error('Failed to update skills: ' + skillsError.message)
-
+    const errorObj = [profileResult, talentResult, skillsResult].find((r) => r.error)
+    if (errorObj) throw new Error(errorObj.error?.message)
   } catch (error) {
     console.error('Onboarding Error:', error)
     const message = error instanceof Error ? error.message : 'Something went wrong'
